@@ -1,0 +1,31 @@
+name: Build Laurapad
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build x64 Release
+      run: |
+        msbuild PowerEditor/visual.net/Notepad_plus.sln `
+          /p:Configuration=Release `
+          /p:Platform=x64
+
+    - name: Rename EXE
+      run: |
+        ren PowerEditor\bin\x64\Release\notepad++.exe Laurapad.exe
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Laurapad-x64
+        path: PowerEditor/bin/x64/Release/Laurapad.exe
