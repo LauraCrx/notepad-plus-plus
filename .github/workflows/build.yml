@@ -2,7 +2,6 @@ name: Build Laurapad
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   build:
@@ -16,8 +15,8 @@ jobs:
 
     - name: Build x64 Release
       run: |
-        msbuild PowerEditor/visual.net/Notepad_plus.sln `
-          /p:Configuration=Release `
+        msbuild PowerEditor/visual.net/Notepad_plus.sln ^
+          /p:Configuration=Release ^
           /p:Platform=x64
 
     - name: Rename EXE
