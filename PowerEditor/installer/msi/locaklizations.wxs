@@ -291,7 +291,7 @@
 		<!--
 		NPP_LANG Property:
 		Use "NPP_LANG=localizationFileNameWithoutExtension" to install one of language listed above.
-		For example, the Notepad++ French localization file is "french.xml". To install the French localization, use "NPP_LANG=french".
+		For example, the Notepad++ Extra French localization file is "french.xml". To install the French localization, use "NPP_LANG=french".
 		Likewise, to install the Argentine Spanish localization, use "NPP_LANG=spanish_ar";
 		and to install the Serbian Cyrillic localization, use "NPP_LANG=serbianCyrillic".
 		-->
@@ -299,14 +299,14 @@
 		<Property Id="NPP_LANG" Secure="yes">
 			<RegistrySearch Id="NPP_LANG_Search"
 							Root="HKLM"
-							Key="Software\Notepad++\Lang"
+							Key="Software\Notepad++ Extra\Lang"
 							Name="active"
 							Type="raw" />
 		</Property>
 
 		<Component Id="nativeLang_registry" Guid="{86989CD1-5FE5-43AE-A7EA-0CDAE0B9F69B}" Directory="INSTALLFOLDER">
 			<RegistryValue  Root="HKLM"
-							Key="Software\Notepad++\Lang"
+							Key="Software\Notepad++ Extra\Lang"
 							Name="active"
 							Type="string"
 							Value="[NPP_LANG]"

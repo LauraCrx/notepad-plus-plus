@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Notepad++ Extra project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -235,11 +235,11 @@ void Buffer::updateTimeStamp()
 	LONG res = CompareFileTime(&_timeStamp, &timeStampLive);
 
 	if (res == -1 || res == 1)
-	// (res == -1) => timeStampLive is later, it means the file has been modified outside of Notepad++ - usual case
+	// (res == -1) => timeStampLive is later, it means the file has been modified outside of Notepad++ Extra - usual case
 	// 
 	// (res == 1) => timeStampLive (get directly from the file on disk) is earlier than buffer's timestamp - unusual case
-	//               It can happen when user copies a backup of editing file somewhere-else firstly, then modifies the editing file in Notepad++ and saves it.
-	//               Now user copies the backup back to erase the modified editing file outside Notepad++ (via Explorer).
+	//               It can happen when user copies a backup of editing file somewhere-else firstly, then modifies the editing file in Notepad++ Extra and saves it.
+	//               Now user copies the backup back to erase the modified editing file outside Notepad++ Extra (via Explorer).
 	{
 		NppParameters& nppParam = NppParameters::getInstance();
 		if (nppParam.doNppLogNetworkDriveIssue())
@@ -538,11 +538,11 @@ bool Buffer::checkFileState() // returns true if the status has been changed (it
 
 		LONG res = CompareFileTime(&_timeStamp, &attributes.ftLastWriteTime);
 		if (res == -1 || res == 1)
-			// (res == -1) => attributes.ftLastWriteTime is later, it means the file has been modified outside of Notepad++ - usual case
+			// (res == -1) => attributes.ftLastWriteTime is later, it means the file has been modified outside of Notepad++ Extra - usual case
 			// 
 			// (res == 1)  => The timestamp get directly from the file on disk is earlier than buffer's timestamp - unusual case
-			//                It can happen when user copies a backup of editing file somewhere-else firstly, then modifies the editing file in Notepad++ and saves it.
-			//                Now user copies the backup back to erase the modified editing file outside Notepad++ (via Explorer).
+			//                It can happen when user copies a backup of editing file somewhere-else firstly, then modifies the editing file in Notepad++ Extra and saves it.
+			//                Now user copies the backup back to erase the modified editing file outside Notepad++ Extra (via Explorer).
 		{
 			if (nppParam.doNppLogNetworkDriveIssue())
 			{
@@ -1189,7 +1189,7 @@ bool FileManager::deleteFile(BufferID id)
 	fileOpStruct.pFrom = fileNamePath.c_str();
 	fileOpStruct.pTo = NULL;
 	fileOpStruct.wFunc = FO_DELETE;
-	fileOpStruct.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION; // FOF_NOCONFIRMATION - prevent possible redundant shell-dlg (Notepad++ uses its own delete-confirmation dlg)
+	fileOpStruct.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION; // FOF_NOCONFIRMATION - prevent possible redundant shell-dlg (Notepad++ Extra uses its own delete-confirmation dlg)
 	fileOpStruct.fAnyOperationsAborted = false;
 	fileOpStruct.hNameMappings         = NULL;
 	fileOpStruct.lpszProgressTitle     = NULL;
@@ -1230,12 +1230,12 @@ bool FileManager::moveFile(BufferID id, const wchar_t* newFileName)
 
 /*
 Specs and Algorithm of session snapshot & periodic backup system:
-Notepad++ quits without asking for saving unsaved file.
+Notepad++ Extra quits without asking for saving unsaved file.
 It restores all the unsaved files and document as the states they left.
 
 For existing file (c:\tmp\foo.h)
 	- Open
-	In the next session, Notepad++
+	In the next session, Notepad++ Extra
 	1. load backup\FILENAME@CREATION_TIMESTAMP (backup\foo.h@198776) if exist, otherwise load FILENAME (c:\tmp\foo.h).
 	2. if backup\FILENAME@CREATION_TIMESTAMP (backup\foo.h@198776) is loaded, set it dirty (red).
 	3. if backup\FILENAME@CREATION_TIMESTAMP (backup\foo.h@198776) is loaded, last modif timestamp of FILENAME (c:\tmp\foo.h), compare with tracked timestamp (in session.xml).
@@ -1249,13 +1249,13 @@ For existing file (c:\tmp\foo.h)
 	3. before switch off to another tab (or close files on exit), check 1 & 2 (sync with backup).
 
 	- Close
-	In the current session, Notepad++
+	In the current session, Notepad++ Extra
 	1. track FILENAME@CREATION_TIMESTAMP (backup\foo.h@198776) if exist (in session.xml).
 	2. track last modified timestamp of FILENAME (c:\tmp\foo.h) if FILENAME@CREATION_TIMESTAMP (backup\foo.h@198776) was tracked  (in session.xml).
 
 For untitled document (new 4)
 	- Open
-	In the next session, Notepad++
+	In the next session, Notepad++ Extra
 	1. open file UNTITLED_NAME@CREATION_TIMESTAMP (backup\new 4@198776)
 	2. set label as UNTITLED_NAME (new 4) and disk icon as red.
 
@@ -1267,7 +1267,7 @@ For untitled document (new 4)
 	3. before switch off to another tab (or close documents on exit), check 1 & 2 (sync with backup).
 
 	- Close
-	In the current session, Notepad++
+	In the current session, Notepad++ Extra
 	1. track UNTITLED_NAME@CREATION_TIMESTAMP (backup\new 4@198776) in session.xml.
 */
 
@@ -1912,7 +1912,7 @@ bool FileManager::loadFileData(Document doc, int64_t fileSize, const wchar_t * f
 		{
 			pNativeSpeaker->messageBox("FileTooBigToOpen",
 				_pNotepadPlus->_pEditView->getHSelf(),
-				L"File is too big to be opened by Notepad++",
+				L"File is too big to be opened by Notepad++ Extra",
 				L"File size problem",
 				MB_OK | MB_APPLMODAL);
 
@@ -2013,7 +2013,7 @@ bool FileManager::loadFileData(Document doc, int64_t fileSize, const wchar_t * f
 		switch (sciStatus)
 		{
 			case SC_STATUS_OK:
-				// either the Scintilla doesn't catch this exception or the error is in the Notepad++ code, report the exception anyway
+				// either the Scintilla doesn't catch this exception or the error is in the Notepad++ Extra code, report the exception anyway
 #if defined(__GNUC__)
 				// there is the std::current_exception() possibility, but getting the real exception code from there requires an ugly hack,
 				// because of the std::exception_ptr has its members _Data1 (GetExceptionCode) and _Data2 (GetExceptionInformation) private
@@ -2026,7 +2026,7 @@ bool FileManager::loadFileData(Document doc, int64_t fileSize, const wchar_t * f
 			{
 				pNativeSpeaker->messageBox("FileMemoryAllocationFailed",
 					_pNotepadPlus->_pEditView->getHSelf(),
-					L"There is probably not enough contiguous free memory for the file being loaded by Notepad++.",
+					L"There is probably not enough contiguous free memory for the file being loaded by Notepad++ Extra.",
 					L"Exception: File memory allocation failed",
 					MB_OK | MB_APPLMODAL);
 			}

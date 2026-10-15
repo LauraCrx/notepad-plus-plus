@@ -1,4 +1,4 @@
-﻿// This file is part of Notepad++ project
+﻿// This file is part of Notepad++ Extra project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -2950,7 +2950,7 @@ bool FindReplaceDlg::processFindNext(const wchar_t* txt2find,
 		{
 			setStatusMessageNotFound(txt2find);
 
-			// if the dialog is not shown, pass the focus to his parent(ie. Notepad++)
+			// if the dialog is not shown, pass the focus to his parent(ie. Notepad++ Extra)
 			if (!::IsWindowVisible(_hSelf))
 			{
 				(*_ppEditView)->grabFocus();
@@ -3086,7 +3086,7 @@ bool FindReplaceDlg::processFindNext(const wchar_t* txt2find,
 				}
 				setStatusMessageNotFound(txt2find, reasonMsg);
 
-				// if the dialog is not shown, pass the focus to his parent(ie. Notepad++)
+				// if the dialog is not shown, pass the focus to his parent(ie. Notepad++ Extra)
 				if (!::IsWindowVisible(_hSelf))
 				{
 					(*_ppEditView)->grabFocus();
@@ -5919,7 +5919,7 @@ void Finder::copyPathnames()
 		if (!str2Clipboard(toClipboard, _hSelf))
 		{
 			assert(false);
-			NppDarkMode::darkMessageBoxW(nullptr, L"Error placing pathnames into clipboard.", L"Notepad++", MB_ICONINFORMATION);
+			NppDarkMode::darkMessageBoxW(nullptr, L"Error placing pathnames into clipboard.", L"Notepad++ Extra", MB_ICONINFORMATION);
 		}
 	}
 }
@@ -6024,7 +6024,7 @@ void Finder::copy()
 	if (!str2Clipboard(toClipboard, _hSelf))
 	{
 		assert(false);
-		NppDarkMode::darkMessageBoxW(nullptr, L"Error placing text in clipboard.", L"Notepad++", MB_ICONINFORMATION);
+		NppDarkMode::darkMessageBoxW(nullptr, L"Error placing text in clipboard.", L"Notepad++ Extra", MB_ICONINFORMATION);
 	}
 }
 

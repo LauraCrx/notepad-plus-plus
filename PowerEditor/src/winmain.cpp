@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Notepad++ Extra project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@ void allowForbidPrivilegeMessages(const Notepad_plus_Window& notepad_plus_plus, 
 	const DWORD MSGFLT_DISALLOW = 2;
 	#endif
 	// Tell UAC that lower integrity processes are allowed to send WM_COPYDATA (or other) messages to this process (or window)
-	// This (WM_COPYDATA) allows opening new files to already opened elevated Notepad++ process via explorer context menu.
+	// This (WM_COPYDATA) allows opening new files to already opened elevated Notepad++ Extra process via explorer context menu.
 	if (winVer >= WV_VISTA || winVer == WV_UNKNOWN)
 	{
 		HMODULE hDll = GetModuleHandle(L"user32.dll");
@@ -122,7 +122,7 @@ void parseCommandLine(const wchar_t* commandLine, ParamVector& paramVector)
 	bool isStringInArg = false;
 	bool isInWhiteSpace = true;
 
-	int zArg = 0; // for "-z" argument: Causes Notepad++ to ignore the next command line argument (a single word, or a phrase in quotes).
+	int zArg = 0; // for "-z" argument: Causes Notepad++ Extra to ignore the next command line argument (a single word, or a phrase in quotes).
 	              // The only intended and supported use for this option is for the Notepad Replacement syntax.
 
 	bool shouldBeTerminated = false; // If "-z" argument has been found, zArg value will be increased from 0 to 1.
@@ -364,22 +364,22 @@ const wchar_t FLAG_MONITORING_MODE[] = L"-monitoringMode";
 void doException(Notepad_plus_Window & notepad_plus_plus)
 {
 	Win32Exception::removeHandler();	//disable exception handler after exception, we don't want corrupt data structures to crash the exception handler
-	::MessageBox(Notepad_plus_Window::gNppHWND, L"Notepad++ will attempt to save any unsaved data. However, data loss is very likely.", L"Recovery initiating", MB_OK | MB_ICONINFORMATION);
+	::MessageBox(Notepad_plus_Window::gNppHWND, L"Notepad++ Extra will attempt to save any unsaved data. However, data loss is very likely.", L"Recovery initiating", MB_OK | MB_ICONINFORMATION);
 
 	wchar_t tmpDir[1024];
 	GetTempPath(1024, tmpDir);
 	std::wstring emergencySavedDir = tmpDir;
-	emergencySavedDir += L"\\Notepad++ RECOV";
+	emergencySavedDir += L"\\Notepad++ Extra RECOV";
 
 	bool res = notepad_plus_plus.emergency(emergencySavedDir);
 	if (res)
 	{
-		std::wstring displayText = L"Notepad++ was able to successfully recover some unsaved documents, or nothing to be saved could be found.\r\nYou can find the results at :\r\n";
+		std::wstring displayText = L"Notepad++ Extra was able to successfully recover some unsaved documents, or nothing to be saved could be found.\r\nYou can find the results at :\r\n";
 		displayText += emergencySavedDir;
 		::MessageBox(Notepad_plus_Window::gNppHWND, displayText.c_str(), L"Recovery success", MB_OK | MB_ICONINFORMATION);
 	}
 	else
-		::MessageBox(Notepad_plus_Window::gNppHWND, L"Unfortunately, Notepad++ was not able to save your work. We are sorry for any lost data.", L"Recovery failure", MB_OK | MB_ICONERROR);
+		::MessageBox(Notepad_plus_Window::gNppHWND, L"Unfortunately, Notepad++ Extra was not able to save your work. We are sorry for any lost data.", L"Recovery failure", MB_OK | MB_ICONERROR);
 }
 
 // Looks for -z arguments and strips command line arguments following those, if any
@@ -585,16 +585,16 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE /*hPrevInstance
 {
 	g_nppStartTimePoint = std::chrono::steady_clock::now();
 	
-	// Notepad++ UAC OPS /////////////////////////////////////////////////////////////////////////////////////////////
+	// Notepad++ Extra UAC OPS /////////////////////////////////////////////////////////////////////////////////////////////
 	if ((lstrlenW(pCmdLine) > 0) && (__argc >= 2)) // safe (if pCmdLine is NULL, lstrlen returns 0)
 	{
 		const std::wstring nppUacOpSign = __wargv[1];
 		if (nppUacOpSign.starts_with(NPP_UAC_OP_PREFIX))
 		{
-			// Check the parent caller to ensure it is Notepad++ and not some other process
+			// Check the parent caller to ensure it is Notepad++ Extra and not some other process
 			if (!isParentProcessThisNotepadPlusPlus())
 			{
-				::MessageBox(Notepad_plus_Window::gNppHWND, L"The parent process is not Notepad++. Aborting the operation for security reasons.", L"Notepad++ UAC OPS Warning", MB_OK | MB_ICONERROR);
+				::MessageBox(Notepad_plus_Window::gNppHWND, L"The parent process is not Notepad++ Extra. Aborting the operation for security reasons.", L"Notepad++ Extra UAC OPS Warning", MB_OK | MB_ICONERROR);
 				return static_cast<int>(ERROR_ACCESS_DENIED);
 			}
 
@@ -628,11 +628,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE /*hPrevInstance
 				return static_cast<int>(nppUacCreateEmptyFile(__wargv[2]));
 			}
 		}
-	} // Notepad++ UAC OPS////////////////////////////////////////////////////////////////////////////////////////////
+	} // Notepad++ Extra UAC OPS////////////////////////////////////////////////////////////////////////////////////////////
 
 	bool TheFirstOne = true;
 	::SetLastError(NO_ERROR);
-	::CreateMutex(NULL, false, L"nppInstance");
+	::CreateMutex(NULL, false, L"LaurasNotes");
 	if (::GetLastError() == ERROR_ALREADY_EXISTS)
 		TheFirstOne = false;
 
@@ -751,7 +751,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE /*hPrevInstance
 	bool updateAtExit = nppGui._autoUpdateOpt._doAutoUpdate == NppGUI::autoupdate_on_exit;
 	bool doUpdatePluginList = nppGui._autoUpdateOpt._doAutoUpdate != NppGUI::autoupdate_disabled;
 
-	if (doFunctionListExport || doPrintAndQuit) // export functionlist feature will serialize functionlist on the disk, then exit Notepad++. So it's important to not launch into existing instance, and keep it silent.
+	if (doFunctionListExport || doPrintAndQuit) // export functionlist feature will serialize functionlist on the disk, then exit Notepad++ Extra. So it's important to not launch into existing instance, and keep it silent.
 	{
 		isMultiInst = true;
 		doUpdateNpp = doUpdatePluginList = false;
@@ -937,7 +937,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE /*hPrevInstance
 	{
 		isException = true;
 		wchar_t message[1024];
-		wsprintf(message, L"An exception occurred. Notepad++ cannot recover and must be shut down.\r\nThe exception details are as follows:\r\n"
+		wsprintf(message, L"An exception occurred. Notepad++ Extra cannot recover and must be shut down.\r\nThe exception details are as follows:\r\n"
 			L"Code:\t0x%08X\r\nType:\t%S\r\nException address: 0x%p", ex.code(), ex.what(), ex.where());
 		::MessageBox(Notepad_plus_Window::gNppHWND, message, L"Win32Exception", MB_OK | MB_ICONERROR);
 		mdump.writeDump(ex.info());

@@ -9,7 +9,7 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-PROJECT(Notepad++)
+PROJECT(Notepad++ Extra)
 
 SET(projIncludDir	../../scintilla/include/
 					../../lexilla/include/
@@ -423,8 +423,8 @@ if(NOT pre-build-result EQUAL 0)
     message(FATAL_ERROR "Pre-build event failed with exit code: ${pre-build-result}")
 endif()
 
-ADD_EXECUTABLE(notepad++ ${option} ${src_files} ${include_files} ${rcFiles})
+ADD_EXECUTABLE(Notepad++ Extra ${option} ${src_files} ${include_files} ${rcFiles})
 
 
-TARGET_LINK_LIBRARIES (notepad++ ${SCINTILLA_STATIC_LIBRARY} ${LEXILLA_STATIC_LIBRARY} ${win32_LIBRARIES})
+TARGET_LINK_LIBRARIES (Notepad++ Extra ${SCINTILLA_STATIC_LIBRARY} ${LEXILLA_STATIC_LIBRARY} ${win32_LIBRARIES})
 

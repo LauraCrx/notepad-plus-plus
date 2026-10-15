@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Notepad++ Extra project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -268,7 +268,7 @@ intptr_t CALLBACK DebugInfoDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM 
 
 			NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
-			// Notepad++ version
+			// Notepad++ Extra version
 			_debugInfoStr = NOTEPAD_PLUS_VERSION;
 			_debugInfoStr += nppParam.archType() == IMAGE_FILE_MACHINE_I386 ? L"   (32-bit)" : nppParam.archType() == IMAGE_FILE_MACHINE_AMD64 ? L"   (64-bit)" : L"   (ARM 64-bit)";
 			_debugInfoStr += L"\r\n";
@@ -705,7 +705,7 @@ void DebugInfoDlg::refreshDebugInfo()
 
 static constexpr const wchar_t COMMAND_ARG_HELP[] = L"Usage:\r\n\
 \r\n\
-notepad++ [--help] [-multiInst] [-noPlugin] [-lLanguage] [-udl=\"My UDL Name\"]\r\n\
+Notepad++ Extra [--help] [-multiInst] [-noPlugin] [-lLanguage] [-udl=\"My UDL Name\"]\r\n\
 [-LlangCode] [-nLineNumber] [-cColumnNumber] [-pPosition] [-xLeftPos] [-yTopPos]\r\n\
 [-monitor] [-monitoringMode] [-nosession] [-notabbar] [-systemtray] [-loadingTime]\r\n\
 [-alwaysOnTop] [-ro] [-fullReadOnly] [-fullReadOnlySavingForbidden] [-openSession] [-r]\r\n\
@@ -715,36 +715,36 @@ notepad++ [--help] [-multiInst] [-noPlugin] [-lLanguage] [-udl=\"My UDL Name\"]\
 [filePath]\r\n\
 \r\n\
 --help: This help message\r\n\
--multiInst: Launch another Notepad++ instance\r\n\
--noPlugin: Launch Notepad++ without loading any plugin\r\n\
+-multiInst: Launch another Notepad++ Extra instance\r\n\
+-noPlugin: Launch Notepad++ Extra without loading any plugin\r\n\
 -l: Open file or Ghost type with syntax highlighting of choice\r\n\
 -udl=\"My UDL Name\": Open file by applying User Defined Language\r\n\
 -L: Apply indicated localization, langCode is browser language code\r\n\
 -n: Scroll to indicated line on filePath\r\n\
 -c: Scroll to indicated column on filePath\r\n\
 -p: Scroll to indicated position on filePath\r\n\
--x: Move Notepad++ to indicated left side position on the screen\r\n\
--y: Move Notepad++ to indicated top position on the screen\r\n\
+-x: Move Notepad++ Extra to indicated left side position on the screen\r\n\
+-y: Move Notepad++ Extra to indicated top position on the screen\r\n\
 -monitor: Open files given in arguments with file monitoring enabled\r\n\
--monitoringMode: Monitoring all files opened in Notepad++\r\n\
--nosession: Launch Notepad++ without previous session\r\n\
--notabbar: Launch Notepad++ without tab bar\r\n\
+-monitoringMode: Monitoring all files opened in Notepad++ Extra\r\n\
+-nosession: Launch Notepad++ Extra without previous session\r\n\
+-notabbar: Launch Notepad++ Extra without tab bar\r\n\
 -ro: Make the filePath read-only\r\n\
 -fullReadOnly: Open all files read-only by default, toggling the R/O off and saving is allowed\r\n\
 -fullReadOnlySavingForbidden: Open all files read-only by default, toggling the R/O off and saving is disabled\r\n\
--systemtray: Launch Notepad++ directly in system tray\r\n\
--loadingTime: Display Notepad++ loading time\r\n\
--alwaysOnTop: Make Notepad++ always on top\r\n\
+-systemtray: Launch Notepad++ Extra directly in system tray\r\n\
+-loadingTime: Display Notepad++ Extra loading time\r\n\
+-alwaysOnTop: Make Notepad++ Extra always on top\r\n\
 -openSession: Open a session. filePath must be a session file\r\n\
 -r: Open files recursively. This argument will be ignored if filePath contains no wildcard character\r\n\
 -qn=\"Easter egg name\": Ghost type easter egg via its name\r\n\
 -qt=\"text to display.\": Ghost type the given text\r\n\
 -qf=\"D:\\my quote.txt\": Ghost type a file content via the file path\r\n\
 -qSpeed: Ghost typing speed. Value from 1 to 3 for slow, fast and fastest\r\n\
--quickPrint: Print the file given as argument then quit Notepad++\r\n\
+-quickPrint: Print the file given as argument then quit Notepad++ Extra\r\n\
 -settingsDir=\"d:\\your settings dir\\\": Override the default settings dir\r\n\
 -openFoldersAsWorkspace: open filePath of folder(s) as workspace\r\n\
--titleAdd=\"string\": add string to Notepad++ title bar\r\n\
+-titleAdd=\"string\": add string to Notepad++ Extra title bar\r\n\
 filePath: file or folder name to open (absolute or relative path name)\r\n\
 ";
 
@@ -1142,7 +1142,7 @@ intptr_t CALLBACK NetworkPathWarningBox::run_dlgProc(UINT message, WPARAM wParam
 		{
 			NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
 
-			std::wstring strServerWhiteListBtnTip = L"Puts the server of the current file into Notepad++ serverWhiteList.xml.\n\nFor more info, click on this button to open website with relevant User Manual section.";;
+			std::wstring strServerWhiteListBtnTip = L"Puts the server of the current file into Notepad++ Extra serverWhiteList.xml.\n\nFor more info, click on this button to open website with relevant User Manual section.";;
 			NativeLangSpeaker* pNativeSpeaker = NppParameters::getInstance().getNativeLangSpeaker();
 			if (pNativeSpeaker)
 			{

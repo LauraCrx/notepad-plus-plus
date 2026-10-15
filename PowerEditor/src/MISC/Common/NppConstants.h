@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Notepad++ Extra project
 // Copyright (C)2025 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ inline constexpr int NPP_CP_BIG5 = 950;
 #endif
 
 
-#define NPP_INTERNAL_FUNCTION_STR L"Notepad++::InternalFunction"
+#define NPP_INTERNAL_FUNCTION_STR L"Notepad++ Extra::InternalFunction"
 
 #define REBARBAND_SIZE sizeof(REBARBANDINFO)
 
@@ -473,7 +473,7 @@ https://npp-user-manual.org/docs/config-files/#the-context-menu-contextmenu-xml\
 		<!-- \r\n\
 		Use MenuEntryName and MenuItemName to localize your commands to add. \r\n\
 		The values should be in English but not in translated language.\r\n\
-		(You can set Notepad++ language back to English from Preferences dialog via menu \"Settings->Preferences...\")\r\n\
+		(You can set Notepad++ Extra language back to English from Preferences dialog via menu \"Settings->Preferences...\")\r\n\
 		-->\r\n\
 		<Item MenuEntryName=\"Edit\" MenuItemName=\"Cut\"/>\r\n\
 		<Item MenuEntryName=\"Edit\" MenuItemName=\"Copy\"/>\r\n\

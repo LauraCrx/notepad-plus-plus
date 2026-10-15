@@ -1,4 +1,4 @@
-# This file is part of Notepad++ project
+# This file is part of Notepad++ Extra project
 # Copyright (C)2021 Ivan U7n <jprofic@yandex.ru>
 #
 # This program is free software: you can redistribute it and/or modify

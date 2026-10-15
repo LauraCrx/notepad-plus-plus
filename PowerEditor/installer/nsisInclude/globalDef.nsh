@@ -1,4 +1,4 @@
-; This file is part of Notepad++ project
+; This file is part of Notepad++ Extra project
 ; Copyright (C)2021 Don HO <don.h@free.fr>
 ;
 ; This program is free software: you can redistribute it and/or modify
@@ -16,10 +16,10 @@
 
 
 ; Define the application name
-!define APPNAME "Notepad++"
+!define APPNAME "Notepad++ Extra"
 
 ; ------------------------------------------------------------------------
-; Get Notepad++ version from the notepad++ binary
+; Get Notepad++ Extra version from the Notepad++ Extra binary
 
 !ifdef ARCH64
 	!getdllversion "..\bin64\notepad++.exe" nppVer_
@@ -53,7 +53,7 @@
 
 !define APPNAMEANDVERSION	"${APPNAME} v${APPVERSION}"
 !define CompanyName		"Don HO don.h@free.fr"
-!define Description		"Notepad++ : a free (GNU) source code editor"
+!define Description		"Notepad++ Extra : a free (GNU) source code editor"
 !define Version		"${nppVer_1}.${nppVer_2}.${nppVer_3}.${nppVer_4}"
 !define ProdVer		"${VERSION_MAJOR}.${VERSION_MINOR}"
 !define LegalCopyright		"Copyleft 1998-2026 by Don HO"

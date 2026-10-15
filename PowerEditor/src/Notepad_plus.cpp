@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Notepad++ Extra project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -2525,7 +2525,7 @@ int Notepad_plus::doSaveOrNot(const wchar_t* fn, bool isMulti)
 	if ((NppParameters::getInstance()).isEndSessionCritical())
 		return IDCANCEL; // simulate Esc-key or Cancel-button as there should not be any big delay / code-flow block
 
-	// In case Notepad++ is minimized into taskbar or iconized into notification zone
+	// In case Notepad++ Extra is minimized into taskbar or iconized into notification zone
 	if (::IsIconic(_pPublicInterface->getHSelf()))
 	{
 		::ShowWindow(_pPublicInterface->getHSelf(), SW_RESTORE);
@@ -2567,7 +2567,7 @@ int Notepad_plus::doSaveOrNot(const wchar_t* fn, bool isMulti)
 
 int Notepad_plus::doSaveAll()
 {
-	// In case Notepad++ is iconized into notification zone
+	// In case Notepad++ Extra is iconized into notification zone
 	if (!::IsWindowVisible(_pPublicInterface->getHSelf()))
 	{
 		::ShowWindow(_pPublicInterface->getHSelf(), SW_SHOW);
@@ -2590,7 +2590,7 @@ int Notepad_plus::doReloadOrNot(const wchar_t *fn, bool dirty)
 	if (dirty)
 		return _nativeLangSpeaker.messageBox("DoReloadOrNotAndLooseChange",
 			_pPublicInterface->getHSelf(),
-			L"\"$STR_REPLACE$\"\r\rThis file has been modified by another program.\rDo you want to reload it and lose the changes made in Notepad++?",
+			L"\"$STR_REPLACE$\"\r\rThis file has been modified by another program.\rDo you want to reload it and lose the changes made in Notepad++ Extra?",
 			L"Reload",
 			MB_YESNO | MB_DEFBUTTON2 | MB_APPLMODAL | MB_ICONEXCLAMATION,
 			0, // not used
@@ -4635,7 +4635,7 @@ void Notepad_plus::dropFiles(HDROP hdrop)
 		else if ((_subEditView.getHSelf() == hWin) || (_subDocTab.getHSelf() == hWin))
 			switchEditViewTo(SUB_VIEW);
 		//else
-			// do not change the current Notepad++ edit-view
+			// do not change the current Notepad++ Extra edit-view
 
 		int filesDropped = ::DragQueryFileW(hdrop, 0xffffffff, NULL, 0);
 
@@ -4718,7 +4718,7 @@ void Notepad_plus::dropFiles(HDROP hdrop)
 
 void Notepad_plus::checkModifiedDocument(bool bCheckOnlyCurrentBuffer)
 {
-	//this will trigger buffer updates. If the status changes, Notepad++ will be informed and can do its magic
+	//this will trigger buffer updates. If the status changes, Notepad++ Extra will be informed and can do its magic
 	MainFileManager.checkFilesystemChanges(bCheckOnlyCurrentBuffer);
 }
 
@@ -6791,7 +6791,7 @@ void Notepad_plus::notifyBufferChanged(Buffer * buffer, int mask)
 						// Since the file content has changed but the user doesn't want to reload it, set state to dirty
 						buffer->setDirty(true);
 
-						// buffer in Notepad++ is not synchronized anymore with the file on disk
+						// buffer in Notepad++ Extra is not synchronized anymore with the file on disk
 						buffer->setUnsync(true);
 
 						break;	//abort
@@ -6800,7 +6800,7 @@ void Notepad_plus::notifyBufferChanged(Buffer * buffer, int mask)
 				// Set _isLoadedDirty false so when the document clean state is reached the icon will be set to blue
 				buffer->setLoadedDirty(false);
 
-				// buffer in Notepad++ is synchronized with the file on disk
+				// buffer in Notepad++ Extra is synchronized with the file on disk
 				buffer->setUnsync(false);
 
 				doReload(buffer->getID(), false);
@@ -6863,7 +6863,7 @@ void Notepad_plus::notifyBufferChanged(Buffer * buffer, int mask)
 					}
 					else
 					{
-						// buffer in Notepad++ is not synchronized anymore with the file on disk
+						// buffer in Notepad++ Extra is not synchronized anymore with the file on disk
 						buffer->setUnsync(true);
 					}
 				}
@@ -6920,7 +6920,7 @@ void Notepad_plus::notifyBufferChanged(Buffer * buffer, int mask)
 
 	if (mask & (BufferChangeLanguage))
 	{
-		checkLangsMenu(-1);	//let Notepad++ do search for the item
+		checkLangsMenu(-1);	//let Notepad++ Extra do search for the item
 		setLangStatus(buffer->getLangType());
 		if (mainActive)
 			_autoCompleteMain.setLanguage(buffer->getLangType());
@@ -7520,7 +7520,7 @@ void Notepad_plus::launchClipboardHistoryPanel()
 
 		// the dlgDlg should be the index of funcItem where the current function pointer is
 		// in this case is DOCKABLE_DEMO_INDEX
-		// In the case of Notepad++ internal function, it'll be the command ID which triggers this dialog
+		// In the case of Notepad++ Extra internal function, it'll be the command ID which triggers this dialog
 		data.dlgID = IDM_EDIT_CLIPBOARDHISTORY_PANEL;
 
 		wstring title_temp = pNativeSpeaker->getAttrNameStr(CH_PROJECTPANELTITLE, "ClipboardHistory", "PanelTitle");
@@ -7577,7 +7577,7 @@ void Notepad_plus::launchDocumentListPanel(bool changeFromBtnCmd)
 
 		// the dlgDlg should be the index of funcItem where the current function pointer is
 		// in this case is DOCKABLE_DEMO_INDEX
-		// In the case of Notepad++ internal function, it'll be the command ID which triggers this dialog
+		// In the case of Notepad++ Extra internal function, it'll be the command ID which triggers this dialog
 		data.dlgID = IDM_VIEW_DOCLIST;
 
 		wstring title_temp = pNativeSpeaker->getAttrNameStr(FS_PROJECTPANELTITLE, "DocList", "PanelTitle");
@@ -7658,7 +7658,7 @@ void Notepad_plus::launchAnsiCharPanel()
 
 		// the dlgDlg should be the index of funcItem where the current function pointer is
 		// in this case is DOCKABLE_DEMO_INDEX
-		// In the case of Notepad++ internal function, it'll be the command ID which triggers this dialog
+		// In the case of Notepad++ Extra internal function, it'll be the command ID which triggers this dialog
 		data.dlgID = IDM_EDIT_CHAR_PANEL;
 
 		wstring title_temp = pNativeSpeaker->getAttrNameStr(AI_PROJECTPANELTITLE, "AsciiInsertion", "PanelTitle");
@@ -7705,7 +7705,7 @@ void Notepad_plus::launchFileBrowser(const vector<wstring> & folders, const wstr
 
 		// the dlgDlg should be the index of funcItem where the current function pointer is
 		// in this case is DOCKABLE_DEMO_INDEX
-		// In the case of Notepad++ internal function, it'll be the command ID which triggers this dialog
+		// In the case of Notepad++ Extra internal function, it'll be the command ID which triggers this dialog
 		data.dlgID = IDM_VIEW_FILEBROWSER;
 
 		NativeLangSpeaker *pNativeSpeaker = nppParams.getNativeLangSpeaker();
@@ -7819,7 +7819,7 @@ void Notepad_plus::launchProjectPanel(int cmdID, ProjectPanel ** pProjPanel, int
 
 		// the dlgDlg should be the index of funcItem where the current function pointer is
 		// in this case is DOCKABLE_DEMO_INDEX
-		// In the case of Notepad++ internal function, it'll be the command ID which triggers this dialog
+		// In the case of Notepad++ Extra internal function, it'll be the command ID which triggers this dialog
 		data.dlgID = cmdID;
 
 		wstring title_no = to_wstring (panelID + 1);
@@ -7878,7 +7878,7 @@ void Notepad_plus::launchDocMap()
 
 		// the dlgDlg should be the index of funcItem where the current function pointer is
 		// in this case is DOCKABLE_DEMO_INDEX
-		// In the case of Notepad++ internal function, it'll be the command ID which triggers this dialog
+		// In the case of Notepad++ Extra internal function, it'll be the command ID which triggers this dialog
 		data.dlgID = IDM_VIEW_DOC_MAP;
 
 		NativeLangSpeaker *pNativeSpeaker = nppParam.getNativeLangSpeaker();
@@ -7922,7 +7922,7 @@ void Notepad_plus::launchFunctionList()
 
 		// the dlgDlg should be the index of funcItem where the current function pointer is
 		// in this case is DOCKABLE_DEMO_INDEX
-		// In the case of Notepad++ internal function, it'll be the command ID which triggers this dialog
+		// In the case of Notepad++ Extra internal function, it'll be the command ID which triggers this dialog
 		data.dlgID = IDM_VIEW_FUNC_LIST;
 
 		NativeLangSpeaker *pNativeSpeaker = nppParam.getNativeLangSpeaker();
@@ -7965,12 +7965,12 @@ struct TextTrollerParams
 
 static const QuoteParams quotes[] =
 {
-	{L"Notepad++", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"The creation of Notepad++ is due to my need for a decent editor to edit the source code of Notepad++"},
-	{L"Notepad++ #1", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"I hate reading other people's code.\nSo I wrote mine, made it as open source project, and watch others suffer."},
-	{L"Notepad++ #2", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"Good programmers use Notepad++ to code.\nExtreme programmers use MS Word to code, in Comic Sans, center aligned."},
-	{L"Notepad++ #3", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"The best things in life are free.\nNotepad++ is free.\nSo Notepad++ is the best.\n"},
-	{L"Notepad++ #4", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"Whatever you do, always give 100%.\nUnless you're donating to Notepad++, then 50% is OK.\nhttps://notepad-plus-plus.org/donate/\n"},
-	{L"Notepad++ #5", QuoteParams::slow, true, SC_CP_UTF8, L_TEXT, L"Notepad++ doesn't just \"Save As…\".\nIt can also save your ass."},
+	{L"Notepad++ Extra", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"The creation of Notepad++ Extra is due to my need for a decent editor to edit the source code of Notepad++ Extra"},
+	{L"Notepad++ Extra #1", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"I hate reading other people's code.\nSo I wrote mine, made it as open source project, and watch others suffer."},
+	{L"Notepad++ Extra #2", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"Good programmers use Notepad++ Extra to code.\nExtreme programmers use MS Word to code, in Comic Sans, center aligned."},
+	{L"Notepad++ Extra #3", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"The best things in life are free.\nNotepad++ Extra is free.\nSo Notepad++ Extra is the best.\n"},
+	{L"Notepad++ Extra #4", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"Whatever you do, always give 100%.\nUnless you're donating to Notepad++ Extra, then 50% is OK.\nhttps://notepad-plus-plus.org/donate/\n"},
+	{L"Notepad++ Extra #5", QuoteParams::slow, true, SC_CP_UTF8, L_TEXT, L"Notepad++ Extra doesn't just \"Save As…\".\nIt can also save your ass."},
 	{L"Richard Stallman", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"If I'm the Father of Open Source, it was conceived through artificial insemination using stolen sperm without my knowledge or consent."},
 	{L"Martin Golding", QuoteParams::rapid, true, SC_CP_UTF8, L_TEXT, L"Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live."},
 	{L"L. Peter Deutsch", QuoteParams::slow, false, SC_CP_UTF8, L_TEXT, L"To iterate is human, to recurse divine."},

@@ -1,4 +1,4 @@
-; This file is part of Notepad++ project
+; This file is part of Notepad++ Extra project
 ; Copyright (C)2021 Don HO <don.h@free.fr>
 ;
 ; This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ Function LaunchNpp
   ; If npp is not available even after 5 seconds, exit without showing change.log
 
   ${ForEach} $R1 1 5 + 1				; Loop to find opened Npp instance
-	System::Call 'kernel32::OpenMutex(i 0x100000, b 0, t "nppInstance") i .R0'
+	System::Call 'kernel32::OpenMutex(i 0x100000, b 0, t "LaurasNotes") i .R0'
 	IntCmp $R0 0 NotYetExecuted
 		System::Call 'kernel32::CloseHandle(i $R0)'
 		Exec '"$INSTDIR\notepad++.exe" "$INSTDIR\change.log" '
@@ -40,7 +40,7 @@ Function LaunchNpp
   ${Next}
 FunctionEnd
 
-; Check if Notepad++ is running
+; Check if Notepad++ Extra is running
 ; Created by Motaz Alnuweiri
 ; URL: http://nsis.sourceforge.net/Check_whether_your_application_is_running
 ;      http://nsis.sourceforge.net/Sharing_functions_between_Installer_and_Uninstaller
@@ -49,14 +49,14 @@ FunctionEnd
 !macro CheckIfRunning un
 	Function ${un}CheckIfRunning
 		Check:
-		System::Call 'kernel32::OpenMutex(i 0x100000, b 0, t "nppInstance") i .R0'
+		System::Call 'kernel32::OpenMutex(i 0x100000, b 0, t "LaurasNotes") i .R0'
 		
 		IntCmp $R0 0 NotRunning
 			StrCpy $runningNppDetected "true"
 			System::Call 'kernel32::CloseHandle(i $R0)'
-			MessageBox MB_RETRYCANCEL|MB_DEFBUTTON1|MB_ICONSTOP "Cannot continue the installation: Notepad++ is running.\
+			MessageBox MB_RETRYCANCEL|MB_DEFBUTTON1|MB_ICONSTOP "Cannot continue the installation: Notepad++ Extra is running.\
 			          $\n$\n\
-                      Please close Notepad++, then click ''Retry''." IDRETRY Retry IDCANCEL Cancel
+                      Please close Notepad++ Extra, then click ''Retry''." IDRETRY Retry IDCANCEL Cancel
 			Retry:
 				Goto Check
 			
@@ -106,7 +106,7 @@ Function ExtraOptions
 	${NSD_Check} $ShortcutCheckboxHandle
 	${NSD_OnClick} $ShortcutCheckboxHandle OnChange_ShortcutCheckBox
 
-	${NSD_CreateCheckbox} 0 80 100% 30u "Don't use %APPDATA%$\nEnable this option to make Notepad++ load/write the configuration files from/to its install directory. Check it if you use Notepad++ in a USB device."
+	${NSD_CreateCheckbox} 0 80 100% 30u "Don't use %APPDATA%$\nEnable this option to make Notepad++ Extra load/write the configuration files from/to its install directory. Check it if you use Notepad++ Extra in a USB device."
 	Pop $NoUserDataCheckboxHandle
 	IfFileExists $INSTDIR\doLocalConf.xml doLocalConfExists doLocalConfDoesNotExists
 	doLocalConfExists:
@@ -140,23 +140,23 @@ Function checkCompatibility
 	${GetWindowsVersion} $WinVer
 	
 	StrCmp $WinVer "95" 0 +3
-		MessageBox MB_OK|MB_ICONSTOP "Notepad++ does not support your OS. The installation will be aborted."
+		MessageBox MB_OK|MB_ICONSTOP "Notepad++ Extra does not support your OS. The installation will be aborted."
 		Abort
 		
 	StrCmp $WinVer "98" 0 +3
-		MessageBox MB_OK|MB_ICONSTOP "Notepad++ does not support your OS. The installation will be aborted."
+		MessageBox MB_OK|MB_ICONSTOP "Notepad++ Extra does not support your OS. The installation will be aborted."
 		Abort
 		
 	StrCmp $WinVer "ME" 0 +3
-		MessageBox MB_OK|MB_ICONSTOP "Notepad++ does not support your OS. The installation will be aborted."
+		MessageBox MB_OK|MB_ICONSTOP "Notepad++ Extra does not support your OS. The installation will be aborted."
 		Abort
 		
 	StrCmp $WinVer "2000" 0 +3 ; Windows 2000
-		MessageBox MB_OK|MB_ICONSTOP "Notepad++ does not support your OS. The installation will be aborted."
+		MessageBox MB_OK|MB_ICONSTOP "Notepad++ Extra does not support your OS. The installation will be aborted."
 		Abort
 		
 	StrCmp $WinVer "XP" 0 xp_endTest ; XP
-		MessageBox MB_YESNO|MB_ICONSTOP "This version of Notepad++ doesn't support Windows XP. The installation will be aborted.$\n$\nDo you want to go to Notepad++ download page for downloading the last version which supports XP (v7.9.2)?" IDYES xp_openDlPage IDNO xp_goQuit
+		MessageBox MB_YESNO|MB_ICONSTOP "This version of Notepad++ Extra doesn't support Windows XP. The installation will be aborted.$\n$\nDo you want to go to Notepad++ Extra download page for downloading the last version which supports XP (v7.9.2)?" IDYES xp_openDlPage IDNO xp_goQuit
 xp_openDlPage:
 		ExecShell "open" "https://notepad-plus-plus.org/downloads/v7.9.2/"
 xp_goQuit:
@@ -164,7 +164,7 @@ xp_goQuit:
 xp_endTest:
 		
 	StrCmp $WinVer "2003" 0 ws2003_endTest ; Windows Server 2003
-		MessageBox MB_YESNO|MB_ICONSTOP "This version of Notepad++ doesn't support Windows Server 2003. The installation will be aborted.$\n$\nDo you want to go to Notepad++ download page for downloading the last version which supports this OS?" IDYES ws2003_openDlPage IDNO ws2003_goQuit
+		MessageBox MB_YESNO|MB_ICONSTOP "This version of Notepad++ Extra doesn't support Windows Server 2003. The installation will be aborted.$\n$\nDo you want to go to Notepad++ Extra download page for downloading the last version which supports this OS?" IDYES ws2003_openDlPage IDNO ws2003_goQuit
 ws2003_openDlPage:
 		ExecShell "open" "https://notepad-plus-plus.org/downloads/v7.9.2/"
 ws2003_goQuit:
@@ -176,7 +176,7 @@ ws2003_endTest:
 		; OK
 	${Else}
 		; we cannot run ARM64 binaries on a x86/x64 CPU (the other way around is possible - x86 on ARM64 CPU)
-		MessageBox MB_YESNO|MB_ICONSTOP "This installer contains ARM64 version of Notepad++ incompatible with your computer processor running, so the installation will be aborted.$\n$\nDo you want to go to the Notepad++ site to download a compatible (x86/x64) installer instead?" IDYES arm64_openDlPage IDNO arm64_goQuit
+		MessageBox MB_YESNO|MB_ICONSTOP "This installer contains ARM64 version of Notepad++ Extra incompatible with your computer processor running, so the installation will be aborted.$\n$\nDo you want to go to the Notepad++ Extra site to download a compatible (x86/x64) installer instead?" IDYES arm64_openDlPage IDNO arm64_goQuit
 arm64_openDlPage:
 		ExecShell "open" "https://notepad-plus-plus.org/downloads/"
 arm64_goQuit:
@@ -198,7 +198,7 @@ Function writeInstallInfoInRegistry
 	!else
 		WriteRegStr HKLM "${UNINSTALL_REG_KEY}" "DisplayName" "${APPNAME} (32-bit x86)"
 	!endif
-	WriteRegStr HKLM "${UNINSTALL_REG_KEY}" "Publisher" "Notepad++ Team"
+	WriteRegStr HKLM "${UNINSTALL_REG_KEY}" "Publisher" "Notepad++ Extra Team"
 	WriteRegStr HKLM "${UNINSTALL_REG_KEY}" "MajorVersion" "${VERSION_MAJOR}"
 	WriteRegStr HKLM "${UNINSTALL_REG_KEY}" "MinorVersion" "${VERSION_MINOR}"
 	WriteRegStr HKLM "${UNINSTALL_REG_KEY}" "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -220,7 +220,7 @@ Function writeInstallInfoInRegistry
 FunctionEnd
 
 
-!define RUNPROC_WND_CLASS "Notepad++"
+!define RUNPROC_WND_CLASS "Notepad++ Extra"
 !define RUNPROC_WAIT_FOR_EXIT_MAX_MS 5000 ;  5 seconds max
 !define RUNPROC_SYNC_TERM 0x00100001 ; dwDesiredAccess ... PROCESS_TERMINATE | SYNCHRONIZE
 !include WinMessages.nsh

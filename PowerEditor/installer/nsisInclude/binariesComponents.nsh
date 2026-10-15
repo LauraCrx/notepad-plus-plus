@@ -1,4 +1,4 @@
-; This file is part of Notepad++ project
+; This file is part of Notepad++ Extra project
 ; Copyright (C)2021 Don HO <don.h@free.fr>
 ;
 ; This program is free software: you can redistribute it and/or modify
@@ -70,7 +70,7 @@ ${MementoSection} "Auto-Updater" AutoUpdater
 	${If} $noUpdater == "true"
 		Delete $INSTDIR\updater\*.*
 	${Else}
-		; libcurl.dll has been removed since WinGUp v5.4 (Notepad++ v8.9.1)
+		; libcurl.dll has been removed since WinGUp v5.4 (Notepad++ Extra v8.9.1)
 		Delete "$INSTDIR\updater\libcurl.dll"
 
 		SetOverwrite on

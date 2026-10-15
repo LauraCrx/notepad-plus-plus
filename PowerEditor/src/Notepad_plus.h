@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Notepad++ Extra project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -347,7 +347,7 @@ private:
 	PluginsAdminDlg _pluginsAdminDlg;
 	DocumentPeeker _documentPeeker;
 
-	// a handle list of all the Notepad++ dialogs
+	// a handle list of all the Notepad++ Extra dialogs
 	std::vector<HWND> _hModelessDlgs;
 
 	LastRecentFileList _lastRecentFileList;
@@ -410,7 +410,7 @@ private:
 	bool _isAdministrator = false;
 	bool _isSyncingZoom = false;
 
-	bool _isNppSessionSavedAtExit = false; // guard flag, it prevents emptying of the Notepad++ session.xml in case of multiple WM_ENDSESSION or WM_CLOSE messages
+	bool _isNppSessionSavedAtExit = false; // guard flag, it prevents emptying of the Notepad++ Extra session.xml in case of multiple WM_ENDSESSION or WM_CLOSE messages
 
 	ScintillaCtrls _scintillaCtrls4Plugins;
 
