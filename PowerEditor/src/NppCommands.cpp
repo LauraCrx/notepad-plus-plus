@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Whatsapp History Viewer project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -133,8 +133,8 @@ void Notepad_plus::macroPlayback(Macro macro, std::vector<Document>* pDocs4EndUA
 			Document doc = pDocs4EndUA->back();
 			if (MainFileManager.getBufferFromDocument(doc) == BUFFER_INVALID)
 			{
-				// affected doc no longer exists (a macro step closed its associated Notepad++ tab/buffer),
-				// the ending undo action is not needed (until Notepad++ supports tab/buffer closing undo)
+				// affected doc no longer exists (a macro step closed its associated Whatsapp History Viewer tab/buffer),
+				// the ending undo action is not needed (until Whatsapp History Viewer supports tab/buffer closing undo)
 			}
 			else
 			{
@@ -2314,7 +2314,7 @@ void Notepad_plus::command(int id)
 					// Not in admin mode, and file might be protected. So we can't change the file attributes.
 					_nativeLangSpeaker.messageBox("NoAdminRight2ChangeReadOnlyFileAttribute",
 						_pPublicInterface->getHSelf(),
-						L"Please run Notepad++ as administrator to change the file attributes.",
+						L"Please run Whatsapp History Viewer as administrator to change the file attributes.",
 						L"Changing file read-only attribute failed",
 						MB_OK | MB_ICONWARNING);
 				}
@@ -3426,18 +3426,18 @@ void Notepad_plus::command(int id)
 		case IDM_SETTING_IMPORTPLUGIN :
         {
 			// Copy plugins to Plugins Home
-            const wchar_t *extFilterName = L"Notepad++ plugin";
+            const wchar_t *extFilterName = L"Whatsapp History Viewer plugin";
             const wchar_t *extFilter = L".dll";
             vector<wstring> copiedFiles = addNppPlugins(extFilterName, extFilter);
 
-            // Tell users to restart Notepad++ to load plugin
+            // Tell users to restart Whatsapp History Viewer to load plugin
 			if (copiedFiles.size())
 			{
 				NativeLangSpeaker *pNativeSpeaker = (NppParameters::getInstance()).getNativeLangSpeaker();
 				pNativeSpeaker->messageBox("NeedToRestartToLoadPlugins",
 					_pPublicInterface->getHSelf(),
-					L"You have to restart Notepad++ to load plugins you installed.",
-					L"Notepad++ needs to be relaunched",
+					L"You have to restart Whatsapp History Viewer to load plugins you installed.",
+					L"Whatsapp History Viewer needs to be relaunched",
 					MB_OK | MB_APPLMODAL);
 			}
             break;
@@ -3446,7 +3446,7 @@ void Notepad_plus::command(int id)
         case IDM_SETTING_IMPORTSTYLETHEMES :
         {
             // get plugin source path
-            const wchar_t *extFilterName = L"Notepad++ style theme";
+            const wchar_t *extFilterName = L"Whatsapp History Viewer style theme";
             const wchar_t *extFilter = L".xml";
             const wchar_t *destDir = L"themes";
 
@@ -3519,7 +3519,7 @@ void Notepad_plus::command(int id)
         {
 			_nativeLangSpeaker.messageBox("ContextMenuXmlEditWarning",
 				_pPublicInterface->getHSelf(),
-				L"Editing contextMenu.xml allows you to modify your Notepad++ popup context menu on edit zone.\rYou have to restart your Notepad++ to take effect after modifying contextMenu.xml.",
+				L"Editing contextMenu.xml allows you to modify your Whatsapp History Viewer popup context menu on edit zone.\rYou have to restart your Whatsapp History Viewer to take effect after modifying contextMenu.xml.",
 				L"Editing contextMenu",
 				MB_OK|MB_APPLMODAL);
 
@@ -3820,8 +3820,8 @@ void Notepad_plus::command(int id)
 			{
 				long res = _nativeLangSpeaker.messageBox("XpUpdaterProblem",
 					_pPublicInterface->getHSelf(),
-					L"Notepad++ updater is not compatible with XP due to the obsolete security layer under XP.\rDo you want to go to Notepad++ page to download the latest version?",
-					L"Notepad++ Updater",
+					L"Whatsapp History Viewer updater is not compatible with XP due to the obsolete security layer under XP.\rDo you want to go to Whatsapp History Viewer page to download the latest version?",
+					L"Whatsapp History Viewer Updater",
 					MB_YESNO);
 
 				if (res == IDYES)

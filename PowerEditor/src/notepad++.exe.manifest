@@ -4,10 +4,10 @@
 <assemblyIdentity
     version="1.0.0.0"
     processorArchitecture="*"
-    name="Notepad++"
+    name="Whatsapp History Viewer"
     type="win32"
 />
-<description>Notepad++</description>
+<description>Whatsapp History Viewer</description>
 <dependency>
     <dependentAssembly>
         <assemblyIdentity

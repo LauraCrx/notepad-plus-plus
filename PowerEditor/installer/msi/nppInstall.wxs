@@ -1,7 +1,7 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 
-	<Package	Name="Notepad++ (x64)"
-				Manufacturer="Notepad++ team (MSI installer)"
+	<Package	Name="Whatsapp History Viewer (x64)"
+				Manufacturer="Whatsapp History Viewer team (MSI installer)"
 				Version="$(var.Version)"
 				UpgradeCode="{CDB13460-04DF-4708-A7FD-4CB4A0684605}">
 
@@ -21,7 +21,7 @@
 		<!--
 		Write version information to Details' Comments field in Property of MSI file
 		-->
-		<SummaryInformation Comments="Notepad++ v$(var.Version) (x64)" />
+		<SummaryInformation Comments="Whatsapp History Viewer v$(var.Version) (x64)" />
 
 		<!--
 		Consider the 4th digit of version number for the updating, with AllowSameVersionUpgrades="yes"
@@ -32,7 +32,7 @@
 		Installation directory structure
 		-->
 		<StandardDirectory Id="ProgramFiles64Folder">
-			<Directory Id="INSTALLFOLDER" Name="Notepad++">
+			<Directory Id="INSTALLFOLDER" Name="Whatsapp History Viewer">
 				<Directory Id="ContextMenuFolder" Name="contextMenu" />
 				<Directory Id="UpdaterFolder" Name="updater" />
 				<Directory Id="AutoCompletionFolder" Name="autoCompletion" />
@@ -51,7 +51,7 @@
 		</StandardDirectory>
 
 		<StandardDirectory Id="ProgramMenuFolder">
-			<Directory Id="ApplicationProgramsFolder" Name="Notepad++" />
+			<Directory Id="ApplicationProgramsFolder" Name="Whatsapp History Viewer" />
 		</StandardDirectory>
 
 	
@@ -61,11 +61,11 @@
 		<ComponentGroup Id="ShortcutComponentGroup" Directory="ApplicationProgramsFolder">
 			<Component Id="cmp_NppShortcut" Guid="{9DF5F816-BF4F-496B-9095-E1E8C01B89CE}"> 
 			<Shortcut	Id="startmenuShortcut"
-						Name="Notepad++"
+						Name="Whatsapp History Viewer"
 						Target="[INSTALLFOLDER]notepad++.exe"
 						WorkingDirectory="INSTALLFOLDER" />
 
-			<RegistryValue Root="HKCU" Key="Software\Notepad++" Name="StartMenuShortcut" Type="integer" Value="1"  KeyPath="yes"/>
+			<RegistryValue Root="HKCU" Key="Software\Whatsapp History Viewer" Name="StartMenuShortcut" Type="integer" Value="1"  KeyPath="yes"/>
 			<RemoveFolder Id="RemoveApplicationProgramsFolder" On="uninstall" />
 			</Component>
 		</ComponentGroup>
@@ -82,13 +82,13 @@
 			</Component>
 
 			<Component Id="cmp_NppShellRegistry" Guid="{373DA2A0-EC23-41DC-A84D-48584FCC6619}">
-				<RegistryKey Root="HKCR" Key="*\shell\ANotepad++64">
-					<RegistryValue Type="string" Value="Notepad++ Context menu" KeyPath="yes" />
+				<RegistryKey Root="HKCR" Key="*\shell\AWhatsapp History Viewer64">
+					<RegistryValue Type="string" Value="Whatsapp History Viewer Context menu" KeyPath="yes" />
 					<RegistryValue Name="ExplorerCommandHandler" Type="string" Value="{B298D29A-A6ED-11DE-BA8C-A68E55D89593}" />
 					<RegistryValue Name="NeverDefault" Type="string" Value="" />
 				</RegistryKey>
 				<RegistryKey Root="HKCR" Key="CLSID\{B298D29A-A6ED-11DE-BA8C-A68E55D89593}">
-					<RegistryValue Type="string" Value="notepad++" />
+					<RegistryValue Type="string" Value="Whatsapp History Viewer" />
 				</RegistryKey>
 				<RegistryKey Root="HKCR" Key="CLSID\{B298D29A-A6ED-11DE-BA8C-A68E55D89593}\InProcServer32">
 					<RegistryValue Type="string" Value="[ContextMenuFolder]NppShell.dll" />
@@ -100,7 +100,7 @@
 			Register sparse MSIX package after user next login for Windows 11 modern context menu
 			-->
 			<Component Id="cmp_RegSparsePackage" Guid="{02E790D5-3018-48E5-9B04-2C75925767AD}">
-				<RegistryKey Root="HKLM" Key="SOFTWARE\Notepad++">
+				<RegistryKey Root="HKLM" Key="SOFTWARE\Whatsapp History Viewer">
 					<RegistryValue Name="ContextMenuFolder"
 						Type="string"
 						Value="[ContextMenuFolder]"
@@ -109,12 +109,12 @@
 				<RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce">
 					<RegistryValue Name="RegisterNppShell"
 						Type="string"
-						Value="&quot;[System64Folder]WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command &quot;$p = (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Notepad++' -Name ContextMenuFolder).ContextMenuFolder.TrimEnd('\'); Add-AppxPackage -Path (Join-Path $p 'NppShell.msix') -ExternalLocation $p; Remove-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Notepad++' -Name ContextMenuFolder -ErrorAction SilentlyContinue&quot;" />
+						Value="&quot;[System64Folder]WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -Command &quot;$p = (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Whatsapp History Viewer' -Name ContextMenuFolder).ContextMenuFolder.TrimEnd('\'); Add-AppxPackage -Path (Join-Path $p 'NppShell.msix') -ExternalLocation $p; Remove-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Whatsapp History Viewer' -Name ContextMenuFolder -ErrorAction SilentlyContinue&quot;" />
 				</RegistryKey>
 			</Component>
 		</ComponentGroup>
 
-		<Feature Id="MainApplication" Title="Notepad++ Files" Level="1">
+		<Feature Id="MainApplication" Title="Whatsapp History Viewer Files" Level="1">
 			<ComponentGroupRef Id="CoreComponentGroup" />
 
 			<ComponentGroupRef Id="ShortcutComponentGroup" />

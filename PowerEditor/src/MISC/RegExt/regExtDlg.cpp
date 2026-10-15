@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Whatsapp History Viewer project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@
 
 
 
-const wchar_t* nppName   = L"Notepad++_file";
-const wchar_t* nppBackup = L"Notepad++_backup";
-const wchar_t* nppDoc    = L"Notepad++ Document";
+const wchar_t* nppName   = L"Whatsapp History Viewer_file";
+const wchar_t* nppBackup = L"Whatsapp History Viewer_backup";
+const wchar_t* nppDoc    = L"Whatsapp History Viewer Document";
 
 const int nbSupportedLang = 10;
 const int nbExtMax = 28;
