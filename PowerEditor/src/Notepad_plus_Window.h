@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Laura's Notes project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@ public:
 		return _hIconAbsent;
 	}
 
-	static HWND gNppHWND;	//static handle to Notepad++ window, NULL if non-existent
+	static HWND gNppHWND;	//static handle to Laura's Notes window, NULL if non-existent
 
 	void setStartupBgColor(COLORREF BgColor);
 
@@ -107,7 +107,7 @@ private:
 	static LRESULT CALLBACK Notepad_plus_Proc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 	LRESULT runProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam);
 
-	static constexpr wchar_t _className[32] = L"Notepad++";
+	static constexpr wchar_t _className[32] = L"Laura's Notes";
 	bool _isPrelaunch = false;
 	bool _disablePluginsManager = false;
 

@@ -1,5 +1,5 @@
 echo off
-rem This file is part of Notepad++ project
+rem This file is part of Laura's Notes project
 rem Copyright (C)2025 Don HO <don.h@free.fr>
 rem
 rem This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ REM commands to sign
 
 set signtoolWin11="C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe"
 
-set Sign_by_GlobalSignCert=%signtoolWin11% sign /n "NOTEPAD++" /d "Notepad++" /du "https://notepad-plus-plus.org" /tr http://timestamp.globalsign.com/tsa/r6advanced1 /td SHA256 /fd SHA256
+set Sign_by_GlobalSignCert=%signtoolWin11% sign /n "Laura's Notes" /d "Laura's Notes" /du "https://notepad-plus-plus.org" /tr http://timestamp.globalsign.com/tsa/r6advanced1 /td SHA256 /fd SHA256
 
 set DOUBLE_SIGNING=/as
 
@@ -55,7 +55,7 @@ If ErrorLevel 1 goto End
 rmdir /S /Q .\build
 mkdir .\build
 
-rem Notepad++ minimalist package
+rem Laura's Notes minimalist package
 rmdir /S /Q .\minimalist
 mkdir .\minimalist
 mkdir .\minimalist\userDefineLangs
@@ -143,10 +143,10 @@ copy /Y ".\themes\DarkModeDefault.xml" .\minimalistArm64\themes\
 If ErrorLevel 1 goto End
 
 
-rem Remove old built Notepad++ 32-bit package
+rem Remove old built Laura's Notes 32-bit package
 rmdir /S /Q .\zipped.package.release
 
-rem Re-build Notepad++ 32-bit package folders
+rem Re-build Laura's Notes 32-bit package folders
 mkdir .\zipped.package.release
 mkdir .\zipped.package.release\updater
 mkdir .\zipped.package.release\localization
@@ -162,10 +162,10 @@ mkdir .\zipped.package.release\plugins\Config
 mkdir .\zipped.package.release\plugins\doc
 
 
-rem Remove old built Notepad++ 64-bit package
+rem Remove old built Laura's Notes 64-bit package
 rmdir /S /Q .\zipped.package.release64
 
-rem Re-build Notepad++ 64-bit package folders
+rem Re-build Laura's Notes 64-bit package folders
 mkdir .\zipped.package.release64
 mkdir .\zipped.package.release64\updater
 mkdir .\zipped.package.release64\localization
@@ -181,10 +181,10 @@ mkdir .\zipped.package.release64\plugins\Config
 mkdir .\zipped.package.release64\plugins\doc
 
 
-rem Remove old built Notepad++ ARM64-bit package
+rem Remove old built Laura's Notes ARM64-bit package
 rmdir /S /Q .\zipped.package.releaseArm64
 
-rem Re-build Notepad++ ARM64-bit package folders
+rem Re-build Laura's Notes ARM64-bit package folders
 mkdir .\zipped.package.releaseArm64
 mkdir .\zipped.package.releaseArm64\updater
 mkdir .\zipped.package.releaseArm64\localization
@@ -200,7 +200,7 @@ mkdir .\zipped.package.releaseArm64\plugins\Config
 mkdir .\zipped.package.releaseArm64\plugins\doc
 
 
-rem Basic: Copy needed files into Notepad++ 32-bit package folders
+rem Basic: Copy needed files into Laura's Notes 32-bit package folders
 copy /Y ..\..\LICENSE .\zipped.package.release\license.txt
 If ErrorLevel 1 goto End
 copy /Y ..\bin\readme.txt .\zipped.package.release\
@@ -222,7 +222,7 @@ If ErrorLevel 1 goto End
 
 
 
-rem Basic Copy needed files into Notepad++ 64-bit package folders
+rem Basic Copy needed files into Laura's Notes 64-bit package folders
 copy /Y ..\..\LICENSE .\zipped.package.release64\license.txt
 If ErrorLevel 1 goto End
 copy /Y ..\bin\readme.txt .\zipped.package.release64\
@@ -243,7 +243,7 @@ copy /Y ..\bin64\"notepad++.exe" .\zipped.package.release64\
 If ErrorLevel 1 goto End
 
 
-rem Basic Copy needed files into Notepad++ ARM64 package folders
+rem Basic Copy needed files into Laura's Notes ARM64 package folders
 copy /Y ..\..\LICENSE .\zipped.package.releaseArm64\license.txt
 If ErrorLevel 1 goto End
 copy /Y ..\bin\readme.txt .\zipped.package.releaseArm64\
@@ -264,7 +264,7 @@ copy /Y ..\binarm64\"notepad++.exe" .\zipped.package.releaseArm64\
 If ErrorLevel 1 goto End
 
 
-rem Plugins: Copy needed files into Notepad++ 32-bit package folders
+rem Plugins: Copy needed files into Laura's Notes 32-bit package folders
 copy /Y "..\bin\plugins\NppExport\NppExport.dll" .\zipped.package.release\plugins\NppExport\
 If ErrorLevel 1 goto End
 copy /Y "..\bin\plugins\mimeTools\mimeTools.dll" .\zipped.package.release\plugins\mimeTools\
@@ -272,7 +272,7 @@ If ErrorLevel 1 goto End
 copy /Y "..\bin\plugins\NppConverter\NppConverter.dll" .\zipped.package.release\plugins\NppConverter\
 If ErrorLevel 1 goto End
 
-rem Plugins: Copy needed files into Notepad++ 64-bit package folders
+rem Plugins: Copy needed files into Laura's Notes 64-bit package folders
 copy /Y "..\bin64\plugins\NppExport\NppExport.dll" .\zipped.package.release64\plugins\NppExport\
 If ErrorLevel 1 goto End
 copy /Y "..\bin64\plugins\mimeTools\mimeTools.dll" .\zipped.package.release64\plugins\mimeTools\
@@ -280,7 +280,7 @@ If ErrorLevel 1 goto End
 copy /Y "..\bin64\plugins\NppConverter\NppConverter.dll" .\zipped.package.release64\plugins\NppConverter\
 If ErrorLevel 1 goto End
 
-rem Plugins: Copy needed files into Notepad++ 64-bit package folders
+rem Plugins: Copy needed files into Laura's Notes 64-bit package folders
 copy /Y "..\binarm64\plugins\NppExport\NppExport.dll" .\zipped.package.releaseArm64\plugins\NppExport\
 If ErrorLevel 1 goto End
 copy /Y "..\binarm64\plugins\mimeTools\mimeTools.dll" .\zipped.package.releaseArm64\plugins\mimeTools\
@@ -289,7 +289,7 @@ copy /Y "..\binarm64\plugins\NppConverter\NppConverter.dll" .\zipped.package.rel
 If ErrorLevel 1 goto End
 
 
-rem localizations: Copy all files into Notepad++ 32-bit/64-bit package folders
+rem localizations: Copy all files into Laura's Notes 32-bit/64-bit package folders
 copy /Y ".\nativeLang\*.xml" .\zipped.package.release\localization\
 If ErrorLevel 1 goto End
 copy /Y ".\nativeLang\*.xml" .\zipped.package.release64\localization\
@@ -297,7 +297,7 @@ If ErrorLevel 1 goto End
 copy /Y ".\nativeLang\*.xml" .\zipped.package.releaseArm64\localization\
 If ErrorLevel 1 goto End
 
-rem files API: Copy all files into Notepad++ 32-bit/64-bit package folders
+rem files API: Copy all files into Laura's Notes 32-bit/64-bit package folders
 copy /Y ".\APIs\*.xml" .\zipped.package.release\autoCompletion\
 If ErrorLevel 1 goto End
 copy /Y ".\APIs\*.xml" .\zipped.package.release64\autoCompletion\
@@ -305,7 +305,7 @@ If ErrorLevel 1 goto End
 copy /Y ".\APIs\*.xml" .\zipped.package.releaseArm64\autoCompletion\
 If ErrorLevel 1 goto End
 
-rem FunctionList files: Copy all files into Notepad++ 32-bit/64-bit package folders
+rem FunctionList files: Copy all files into Laura's Notes 32-bit/64-bit package folders
 copy /Y ".\functionList\*.xml" .\zipped.package.release\functionList\
 If ErrorLevel 1 goto End
 copy /Y ".\functionList\*.xml" .\zipped.package.release64\functionList\
@@ -313,7 +313,7 @@ If ErrorLevel 1 goto End
 copy /Y ".\functionList\*.xml" .\zipped.package.releaseArm64\functionList\
 If ErrorLevel 1 goto End
 
-rem Markdown as UserDefineLanguge: Markdown syntax highlighter into Notepad++ 32-bit/64-bit package folders
+rem Markdown as UserDefineLanguge: Markdown syntax highlighter into Laura's Notes 32-bit/64-bit package folders
 copy /Y "..\bin\userDefineLangs\markdown._preinstalled.udl.xml" .\zipped.package.release\userDefineLangs\
 If ErrorLevel 1 goto End
 copy /Y "..\bin\userDefineLangs\markdown._preinstalled.udl.xml" .\zipped.package.release64\userDefineLangs\
@@ -327,7 +327,7 @@ If ErrorLevel 1 goto End
 copy /Y "..\bin\userDefineLangs\markdown._preinstalled_DM.udl.xml" .\zipped.package.releaseArm64\userDefineLangs\
 If ErrorLevel 1 goto End
 
-rem theme: Copy all files into Notepad++ 32-bit/64-bit package folders
+rem theme: Copy all files into Laura's Notes 32-bit/64-bit package folders
 copy /Y ".\themes\*.xml" .\zipped.package.release\themes\
 If ErrorLevel 1 goto End
 copy /Y ".\themes\*.xml" .\zipped.package.release64\themes\

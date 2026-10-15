@@ -1,4 +1,4 @@
-; This file is part of Notepad++ project
+; This file is part of Laura's Notes project
 ; Copyright (C)2021 Don HO <don.h@free.fr>
 ;
 ; This program is free software: you can redistribute it and/or modify
@@ -134,11 +134,11 @@ Function .onInit
 	; --- PATCH BEGIN (it can be deleted without side-effects, when the NSIS N++ x64 installer binary becomes x64 too)---
 	;
 	; 64-bit patch for the NSIS attribute InstallDirRegKey (used in globalDef.nsh)
-	; - this is needed because of the NSIS binary, generated for 64-bit Notepad++ installations, is still a 32-bit app,
-	;   so the InstallDirRegKey checks for the irrelevant HKLM\SOFTWARE\WOW6432Node\Notepad++, explanation:
+	; - this is needed because of the NSIS binary, generated for 64-bit Laura's Notes installations, is still a 32-bit app,
+	;   so the InstallDirRegKey checks for the irrelevant HKLM\SOFTWARE\WOW6432Node\Laura's Notes, explanation:
 	;   https://nsis.sourceforge.io/Reference/SetRegView
 	;
-!ifdef ARCH64 || ARCHARM64	; installation of 64 bits Notepad++ & its 64 bits components
+!ifdef ARCH64 || ARCHARM64	; installation of 64 bits Laura's Notes & its 64 bits components
 	${If} ${RunningX64} ; Windows 64 bits
 		System::Call kernel32::GetCommandLine()t.r0 ; get the original cmdline (where a possible "/D=..." is not hidden from us by NSIS)
 		${StrStr} $1 $0 "/D="
@@ -171,15 +171,15 @@ closeRunningNppCheckDone:
 	${If} $closeRunningNpp == "true"
 		; First try to use the usual app-closing by sending the WM_CLOSE.
 		; If that closing fails, use the forceful TerminateProcess way.
-		!insertmacro FindAndCloseOrTerminateRunningNpp ; this has to precede the following silent mode Notepad++ instance mutex check
+		!insertmacro FindAndCloseOrTerminateRunningNpp ; this has to precede the following silent mode Laura's Notes instance mutex check
 	${EndIf}
 
-	; handle the possible Silent Mode (/S) & already running Notepad++ (without this an incorrect partial installation is possible)
+	; handle the possible Silent Mode (/S) & already running Laura's Notes (without this an incorrect partial installation is possible)
 	IfSilent 0 notInSilentMode
-	System::Call 'kernel32::OpenMutex(i 0x100000, b 0, t "nppInstance") i .R0'
+	System::Call 'kernel32::OpenMutex(i 0x100000, b 0, t "LaurasNotesInstance") i .R0'
 	IntCmp $R0 0 nppNotRunning
 	StrCpy $runningNppDetected "true"
-	System::Call 'kernel32::CloseHandle(i $R0)' ; a Notepad++ instance is running, tidy-up the opened mutex handle only
+	System::Call 'kernel32::CloseHandle(i $R0)' ; a Laura's Notes instance is running, tidy-up the opened mutex handle only
 	SetErrorLevel 5 ; set an exit code > 0 otherwise the installer returns 0 aka SUCCESS ('5' means here the future ERROR_ACCESS_DENIED when trying to overwrite the notepad++.exe file...)
 	Quit ; silent installation is silent, we cannot continue here without a user interaction (or the installation should have been launched with the "/closeRunningNpp" param)
 nppNotRunning:
@@ -253,11 +253,11 @@ relaunchNppDone:
 	; save selected language to registry
 	WriteRegStr HKLM "SOFTWARE\${APPNAME}" 'InstallerLanguage' '$Language'
 
-!ifdef ARCH64 || ARCHARM64 ; x64 or ARM64 : installation of 64 bits Notepad++ & its 64 bits components
+!ifdef ARCH64 || ARCHARM64 ; x64 or ARM64 : installation of 64 bits Laura's Notes & its 64 bits components
 	StrCpy $winSysDir $WINDIR\System32
 	${If} ${RunningX64} ; Windows 64 bits
 		; By default, regView value is 32.
-		; But while installing Notepad++ x64 on 64-bits OS,
+		; But while installing Laura's Notes x64 on 64-bits OS,
 		; we disable registry redirection (enable access to 64-bit portion of registry)
 		; regView value is set to 64 once for all.
 		SetRegView 64
@@ -274,22 +274,22 @@ relaunchNppDone:
 		
 		; check if 32-bit version has been installed if yes, ask user to remove it
 		IfFileExists $PROGRAMFILES\${APPNAME}\notepad++.exe 0 noDelete32
-		MessageBox MB_YESNO "You are trying to install 64-bit version while 32-bit version is already installed. Would you like to remove Notepad++ 32 bit version before proceeding further?$\n(Your custom config files will be kept)" /SD IDYES IDYES doDelete32 IDNO noDelete32 ;IDYES remove
+		MessageBox MB_YESNO "You are trying to install 64-bit version while 32-bit version is already installed. Would you like to remove Laura's Notes 32 bit version before proceeding further?$\n(Your custom config files will be kept)" /SD IDYES IDYES doDelete32 IDNO noDelete32 ;IDYES remove
 doDelete32:
 		StrCpy $diffArchDir2Remove $PROGRAMFILES\${APPNAME}
 noDelete32:
 		
 	${Else} ; Windows 32 bits
-		MessageBox MB_OK "You cannot install Notepad++ 64-bit version on your 32-bit system.$\nPlease download and install Notepad++ 32-bit version instead."
+		MessageBox MB_OK "You cannot install Laura's Notes 64-bit version on your 32-bit system.$\nPlease download and install Laura's Notes 32-bit version instead."
 		Abort
 	${EndIf}
 
-!else ; installation of 32 bits Notepad++ & its 32 bits components
+!else ; installation of 32 bits Laura's Notes & its 32 bits components
 	StrCpy $winSysDir $WINDIR\SysWOW64
 	${If} ${RunningX64}  ; Windows 64 bits
 		; check if 64-bit version has been installed if yes, ask user to remove it
 		IfFileExists $PROGRAMFILES64\${APPNAME}\notepad++.exe 0 noDelete64
-		MessageBox MB_YESNO "You are trying to install 32-bit version while 64-bit version is already installed. Would you like to remove Notepad++ 64 bit version before proceeding further?$\n(Your custom config files will be kept)"  /SD IDYES IDYES doDelete64 IDNO noDelete64
+		MessageBox MB_YESNO "You are trying to install 32-bit version while 64-bit version is already installed. Would you like to remove Laura's Notes 64 bit version before proceeding further?$\n(Your custom config files will be kept)"  /SD IDYES IDYES doDelete64 IDNO noDelete64
 doDelete64:
 		StrCpy $diffArchDir2Remove $PROGRAMFILES64\${APPNAME}
 noDelete64:
@@ -302,7 +302,7 @@ noDelete64:
 FunctionEnd
 
 
-Section -"Notepad++" mainSection
+Section -"Laura's Notes" mainSection
 	${If} $showDetailsChecked == ${BST_CHECKED}
 		SetDetailsView show
 		SetAutoClose false
@@ -364,17 +364,17 @@ ${MementoSection} "Context Menu Entry" explorerContextMenu
 !endif
 
 	; Shell context menu entry
-	WriteRegStr HKCR "*\shell\ANotepad++64" "" "Notepad++ Context menu"
-	WriteRegStr HKCR "*\shell\ANotepad++64" "ExplorerCommandHandler" "{B298D29A-A6ED-11DE-BA8C-A68E55D89593}"
-	WriteRegStr HKCR "*\shell\ANotepad++64" "NeverDefault" ""
+	WriteRegStr HKCR "*\shell\ALaura's Notes64" "" "Laura's Notes Context menu"
+	WriteRegStr HKCR "*\shell\ALaura's Notes64" "ExplorerCommandHandler" "{B298D29A-A6ED-11DE-BA8C-A68E55D89593}"
+	WriteRegStr HKCR "*\shell\ALaura's Notes64" "NeverDefault" ""
 
 	; CLSID registration
-	WriteRegStr HKCR "CLSID\{B298D29A-A6ED-11DE-BA8C-A68E55D89593}" "" "notepad++"
+	WriteRegStr HKCR "CLSID\{B298D29A-A6ED-11DE-BA8C-A68E55D89593}" "" "Laura's Notes"
 	WriteRegStr HKCR "CLSID\{B298D29A-A6ED-11DE-BA8C-A68E55D89593}\InProcServer32" "" "$INSTDIR\contextMenu\NppShell.dll"
 	WriteRegStr HKCR "CLSID\{B298D29A-A6ED-11DE-BA8C-A68E55D89593}\InProcServer32" "ThreadingModel" "Apartment"
 
 	; Register MSIX for Windows 11 modern context menu
-	; Skip only for x86 Notepad++ installation on Windows 32 system
+	; Skip only for x86 Laura's Notes installation on Windows 32 system
 !ifdef ARCH64 || ARCHARM64 ; x64 installer
 	Call RegisterMSIX
 !else ; 32 bits installer
@@ -413,16 +413,16 @@ FunctionEnd
 
 ;--------------------------------
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${explorerContextMenu} 'Explorer context menu entry for Notepad++ : Open whatever you want in Notepad++ from Windows Explorer.'
+    !insertmacro MUI_DESCRIPTION_TEXT ${explorerContextMenu} 'Explorer context menu entry for Laura's Notes : Open whatever you want in Laura's Notes from Windows Explorer.'
     !insertmacro MUI_DESCRIPTION_TEXT ${autoCompletionComponent} 'Install the API files you need for the auto-completion feature (Ctrl+Space).'
     !insertmacro MUI_DESCRIPTION_TEXT ${functionListComponent} 'Install the function list files you need for the function list feature (Ctrl+Space).'
-    !insertmacro MUI_DESCRIPTION_TEXT ${Plugins} 'You may need these plugins to extend the capabilities of Notepad++.'
+    !insertmacro MUI_DESCRIPTION_TEXT ${Plugins} 'You may need these plugins to extend the capabilities of Laura's Notes.'
     !insertmacro MUI_DESCRIPTION_TEXT ${NppExport} 'Copy your syntax highlighted source code as HTML/RTF into clipboard, or save them as HTML/RTF files.'
     !insertmacro MUI_DESCRIPTION_TEXT ${MimeTools} 'Encode/decode selected text with Base64, Quoted-printable, URL encoding, and SAML.'
     !insertmacro MUI_DESCRIPTION_TEXT ${Converter} 'Convert ASCII to binary, octal, hexadecimal and decimal string.'
-    !insertmacro MUI_DESCRIPTION_TEXT ${localization} 'To use Notepad++ in your favorite language(s), install all/desired language(s).'
+    !insertmacro MUI_DESCRIPTION_TEXT ${localization} 'To use Laura's Notes in your favorite language(s), install all/desired language(s).'
     !insertmacro MUI_DESCRIPTION_TEXT ${Themes} 'The eye-candy to change visual effects. Use Theme selector to switch among them.'
-    !insertmacro MUI_DESCRIPTION_TEXT ${AutoUpdater} 'Keep Notepad++ updated: Automatically download and install the latest updates.'
+    !insertmacro MUI_DESCRIPTION_TEXT ${AutoUpdater} 'Keep Laura's Notes updated: Automatically download and install the latest updates.'
     !insertmacro MUI_DESCRIPTION_TEXT ${PluginsAdmin} 'Install, Update and Remove any plugin from a list by some clicks. It needs Auto-Updater installed.'
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
 ;--------------------------------
@@ -452,6 +452,6 @@ Section -FinishSection
 theEnd:
 SectionEnd
 
-BrandingText "The best things in life are free. Notepad++ is free so Notepad++ is the best"
+BrandingText "The best things in life are free. Laura's Notes is free so Laura's Notes is the best"
 
 ; eof

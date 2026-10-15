@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Laura's Notes project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -508,7 +508,7 @@ static constexpr WinMenuKeyDefinition winKeyDefs[]
 	// The following two commands are not in menu if (nppGUI._doesExistUpdater == 0).
 	// They cannot be derived from menu then, only for this reason the text is specified here.
 	// In localized environments, the text comes preferably from xml Menu/Main/Commands.
-	{ VK_NULL,    IDM_UPDATE_NPP,                               false, false, false, L"Update Notepad++" },
+	{ VK_NULL,    IDM_UPDATE_NPP,                               false, false, false, L"Update Laura's Notes" },
 	{ VK_NULL,    IDM_CONFUPDATERPROXY,                         false, false, false, L"Set Updater Proxy..." },
 	{ VK_NULL,    IDM_DEBUGINFO,                                false, false, false, nullptr },
 	{ VK_F1,      IDM_ABOUT,                                    false, false, false, nullptr }
@@ -524,7 +524,7 @@ struct ScintillaKeyDefinition
 	bool isAlt = false;
 	bool isShift = false;
 	int vKey = 0;
-	int redirFunctionId = 0; // this gets set when a function is being redirected through Notepad++ if Scintilla doesn't do it properly :)
+	int redirFunctionId = 0; // this gets set when a function is being redirected through Laura's Notes if Scintilla doesn't do it properly :)
 };
 
 /*!
@@ -534,7 +534,7 @@ struct ScintillaKeyDefinition
 */
 static constexpr ScintillaKeyDefinition scintKeyDefs[]
 {
-	//Scintilla command name,             SCINTILLA_CMD_ID,            Ctrl,  Alt,   Shift, V_KEY,       NOTEPAD++_CMD_ID
+	//Scintilla command name,             SCINTILLA_CMD_ID,            Ctrl,  Alt,   Shift, V_KEY,       Laura's Notes_CMD_ID
 	// -------------------------------------------------------------------------------------------------------------------
 	//
 	//{L"SCI_CUT",                     SCI_CUT,                     true,  false, false, VK_X,        IDM_EDIT_CUT},
@@ -1290,7 +1290,7 @@ std::wstring NppParameters::getSettingsFolder() const
 	if (settingsFolderPath.empty())
 		return _nppPath;
 
-	pathAppend(settingsFolderPath, L"Notepad++");
+	pathAppend(settingsFolderPath, L"Laura's Notes");
 	return settingsFolderPath;
 }
 
@@ -1310,7 +1310,7 @@ bool NppParameters::load()
 	_isLocal = (doesFileExist(localConfPath.c_str()) == TRUE);
 
 	// Under vista and windows 7, the usage of doLocalConf.xml is not allowed
-	// if Notepad++ is installed in "program files" directory, because of UAC
+	// if Laura's Notes is installed in "program files" directory, because of UAC
 	if (_isLocal)
 	{
 		// We check if OS is Vista or greater version
@@ -1343,7 +1343,7 @@ bool NppParameters::load()
 	{
 		_userPath = getSpecialFolderLocation(CSIDL_APPDATA);
 
-		pathAppend(_userPath, L"Notepad++");
+		pathAppend(_userPath, L"Laura's Notes");
 		if (!doesDirectoryExist(_userPath.c_str()))
 			::CreateDirectory(_userPath.c_str(), NULL);
 
@@ -1615,7 +1615,7 @@ bool NppParameters::load()
 	//----------------------------------------------//
 	// nativeLang.xml : for per-user				//
 	// In case of absence of user's nativeLang.xml, //
-	// We'll look in the Notepad++ Dir.			    //
+	// We'll look in the Laura's Notes Dir.			    //
 	//----------------------------------------------//
 
 	std::wstring nativeLangPath;
@@ -1763,7 +1763,7 @@ bool NppParameters::load()
 
 	//-----------------------------------------------------------------------//
 	// serverWhiteList.xml : for per-user                                    //
-	// This xml file is optional - Notepad++ app or a user creates this file //
+	// This xml file is optional - Laura's Notes app or a user creates this file //
 	// in order to automatically allow  files loading for predefined set     //
 	// of safe net-servers, without asking for confirmation.                 //
 	// This has to precede the session.xml loading.                          //
@@ -1908,7 +1908,7 @@ bool NppParameters::load()
 	//-------------------------------------------------------------//
 	// noRestartAutomatically.xml                                  //
 	// This empty xml file is optional - user adds this empty file //
-	// manually in order to prevent Notepad++ registration         //
+	// manually in order to prevent Laura's Notes registration         //
 	// for the Win10+ OS app-restart feature.                      //
 	//-------------------------------------------------------------//
 	filePath = _nppPath;
@@ -2181,7 +2181,7 @@ bool NppParameters::getUserStylersFromXmlTree()
 
 	addDefaultStyles(root);	// make sure that GlobalStyles > WidgetStyles has certain elements, allowing defaults to be populated based on other existing WidgetStyles if needed
 	updateFromModelXml(root, ConfXml::styles);	// look for any WidgetStyles or LexerType>WordsStyles that are missing in the current XML and populate from Model if needed
-	return feedStylerArray(root);	// transfer the XML data structure into Notepad++'s internal data structure
+	return feedStylerArray(root);	// transfer the XML data structure into Laura's Notes's internal data structure
 }
 
 
@@ -3440,7 +3440,7 @@ bool NppParameters::getSessionFromXmlTree(const NppXml::Document& pSessionDoc, S
 
 	bool isNppExit = false;
 	if (g_bNppExitFlag.load())
-		isNppExit = true; // NetworkPathWarning should not be shown at the Notepad++ exit
+		isNppExit = true; // NetworkPathWarning should not be shown at the Laura's Notes exit
 
 	for (size_t k = 0; k < nbView; ++k)
 	{
@@ -3481,9 +3481,9 @@ bool NppParameters::getSessionFromXmlTree(const NppXml::Document& pSessionDoc, S
 
 								if (buttonID == IDCANCEL || buttonID == IDNO) // Skip once or Always skip
 								{
-									// as the Skip or AlwaysSkip causes the current filename will not be in the Notepad++ session anymore,
+									// as the Skip or AlwaysSkip causes the current filename will not be in the Laura's Notes session anymore,
 									// it is important to update also the current session.xml content on disk accordingly,
-									// otherwise any subsequent indirect Notepad++ app launching (e.g. via the NppShell context menu)
+									// otherwise any subsequent indirect Laura's Notes app launching (e.g. via the NppShell context menu)
 									// causes this getSessionFromXmlTree will check old out-of-date session.xml content
 									bNeedsSessionXmlFileUpdateAfter = true;
 									NppXml::deleteChild(viewRoots[k], childNode);
@@ -6538,9 +6538,9 @@ void NppParameters::feedGUIParameters(const NppXml::Element& element)
 				using enum UniMode;
 				int i = NppXml::intAttribute(childNode, "encoding", static_cast<int>(uniUTF8_NoBOM));
 				if (isCurrentSystemCodepageUTF8() // "Beta: Use Unicode UTF-8 for worldwide language support" option is checked in Windows
-					&& static_cast<UniMode>(i) == uni8Bit) // Notepad++ default new document setting is ANSI
+					&& static_cast<UniMode>(i) == uni8Bit) // Laura's Notes default new document setting is ANSI
 				{
-					// Force Notepad++ default new document setting from ANSI to UTF-8
+					// Force Laura's Notes default new document setting from ANSI to UTF-8
 					i = static_cast<int>(uniUTF8);
 				}
 				_nppGUI._newDocDefaultSettings._unicodeMode = static_cast<UniMode>(i);
@@ -6962,7 +6962,7 @@ void NppParameters::feedGUIParameters(const NppXml::Element& element)
 		{
 			_nppGUI._monospacedFontFindDlg = getBoolAttribute(childNode, "monospacedFontFindDlg");
 
-			//This is an option from previous versions of notepad++. It is handled for compatibility with older settings.
+			//This is an option from previous versions of Laura's Notes. It is handled for compatibility with older settings.
 			const char* optStopFillingFindField = NppXml::attribute(childNode, "stopFillingFindField");
 			if (optStopFillingFindField)
 			{
@@ -7346,8 +7346,8 @@ void NppParameters::feedDockingManager(const NppXml::Element& element)
 	HWND hwndNpp = ::FindWindow(Notepad_plus_Window::getClassName(), NULL);
 	if (hwndNpp)
 	{
-		// this code-branch is currently reached only if the Notepad++ multi-instance mode is ON and it is not the 1st Notepad++ instance
-		// (the feedDockingManager() is called at the Notepad++ init via the wWinMain nppParameters.load()))
+		// this code-branch is currently reached only if the Laura's Notes multi-instance mode is ON and it is not the 1st Laura's Notes instance
+		// (the feedDockingManager() is called at the Laura's Notes init via the wWinMain nppParameters.load()))
 
 		HMONITOR hCurMon = ::MonitorFromWindow(hwndNpp, MONITOR_DEFAULTTONEAREST);
 		if (hCurMon)
@@ -7365,10 +7365,10 @@ void NppParameters::feedDockingManager(const NppXml::Element& element)
 		RECT rcNpp{};
 		if (::GetClientRect(hwndNpp, &rcNpp))
 		{
-			// rcNpp RECT could have zero size here! (if the 1st instance of Notepad++ is minimized to the task-bar (systray is ok))
+			// rcNpp RECT could have zero size here! (if the 1st instance of Laura's Notes is minimized to the task-bar (systray is ok))
 			if ((rcNpp.right > _nppGUI._dockingData._minDockedPanelVisibility) && (rcNpp.bottom > _nppGUI._dockingData._minDockedPanelVisibility))
 			{
-				// adjust according to the current Notepad++ client-wnd area
+				// adjust according to the current Laura's Notes client-wnd area
 				nppSize.cx = rcNpp.right;
 				nppSize.cy = rcNpp.bottom;
 			}
@@ -7376,7 +7376,7 @@ void NppParameters::feedDockingManager(const NppXml::Element& element)
 	}
 	else
 	{
-		// no real Notepad++ wnd available, so try to use the previously saved config.xml data instead
+		// no real Laura's Notes wnd available, so try to use the previously saved config.xml data instead
 		if (!_nppGUI._isMaximized)
 		{
 			if (((_nppGUI._appPos.right > DMD_PANEL_WH_DEFAULT) && (_nppGUI._appPos.right < maxMonitorSize.cx))
@@ -9246,7 +9246,7 @@ void NppParameters::setUdlXmlDirtyFromXmlDoc(const NppXml::Document& xmlDoc)
 
 Date::Date(const char* dateStr)
 {
-	// timeStr should be Notepad++ date format : YYYYMMDD
+	// timeStr should be Laura's Notes date format : YYYYMMDD
 	assert(dateStr);
 	const size_t D = std::strlen(dateStr);
 
@@ -9546,7 +9546,7 @@ void NppParameters::buildGupParams(std::wstring& params)
 	params += sgd.signer_key_id();
 
 	params += L" -errLogPath=";
-	params += L"\"%LOCALAPPDATA%\\Notepad++\\log\\securityError.log\"";
+	params += L"\"%LOCALAPPDATA%\\Laura's Notes\\log\\securityError.log\"";
 }
 
 void UserLangContainer::startAtTheme()

@@ -1,4 +1,4 @@
-// This file is part of Notepad++ project
+// This file is part of Laura's Notes project
 // Copyright (C)2021 Don HO <don.h@free.fr>
 
 // This program is free software: you can redistribute it and/or modify
@@ -72,7 +72,7 @@ static constexpr MenuPosition g_menuFolderPositions[]{
 	{ 1,  21, -1, "edit-onSelection" },
 	{ 1,  23, -1, "edit-multiSelectALL" },
 	{ 1,  24, -1, "edit-multiSelectNext" },
-	{ 1,  33, -1, "edit-readonlyInNotepad++" },
+	{ 1,  33, -1, "edit-readonlyInLaura's Notes" },
 
 	{ 2,  18, -1, "search-changeHistory" },
 	{ 2,  20, -1, "search-markAll" },
@@ -1522,7 +1522,7 @@ int NativeLangSpeaker::messageBox(const char* msgBoxTagName, HWND hWnd, const wc
 	return NppDarkMode::darkMessageBoxW(hWnd, msg.c_str(), title.c_str(), msgBoxType);
 }
 
-// Default English localization during Notepad++ launch
+// Default English localization during Laura's Notes launch
 // is handled in NppDarkMode::subclassButtonControl.
 void NativeLangSpeaker::resizeCheckboxRadioBtn(HWND hWnd)
 {
