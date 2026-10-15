@@ -26,11 +26,13 @@ SRC_DIRECTORY := ../src
 SRC_EXCLUDE := $(SRC_DIRECTORY)/tools/%
 BIN_DIRECTORY := ../bin
 INSTALLER_DIRECTORY := ../installer
+XML4CONF_DIRECTORY := ../installer/xml4Config
 
 TARGET_BINARY := notepad++.exe
-SRC_DATA := contextMenu.xml langs.model.xml shortcuts.xml stylers.model.xml tabContextMenu_example.xml toolbarButtonsConf_example.xml
-BIN_DATA := change.log doLocalConf.xml nppLogNulContentCorruptionIssue.xml readme.txt userDefineLangs/
+SRC_DATA := langs.model.xml stylers.model.xml tabContextMenu_example.xml toolbarButtonsConf_example.xml
+BIN_DATA := change.log readme.txt userDefineLangs/
 INSTALLER_DATA := autoCompletion/ functionList/ localization/ themes/
+XML4CONF_DATA := doLocalConf.xml disableNppAutoUpdate.xml
 
 SCINTILLA_DIRECTORY := ../../scintilla
 SCINTILLA_TARGET := libscintilla.a
@@ -55,7 +57,7 @@ CPP_DEFINE := UNICODE _UNICODE OEMRESOURCE NOMINMAX _WIN32_WINNT=_WIN32_WINNT_WI
 LD := $(CXX)
 LDFLAGS := -municode -mwindows
 LD_PATH :=
-LD_LINK := comctl32 crypt32 dbghelp ole32 sensapi shlwapi uuid uxtheme version wininet wintrust dwmapi
+LD_LINK := comctl32 crypt32 dbghelp ole32 sensapi shlwapi uuid uxtheme version wininet wintrust dwmapi bcrypt
 LD_LINK += $(patsubst lib%.a,%,$(SCINTILLA_TARGET)) $(patsubst lib%.a,%,$(LEXILLA_TARGET)) imm32 msimg32 ole32 oleaut32
 SUBMAKEFLAGS := -O --no-print-directory
 
@@ -63,7 +65,7 @@ SUBMAKEFLAGS := -O --no-print-directory
 ifeq "$(filter-out 0,$(DEBUG))" ""
 BUILD_TYPE := release
 BUILD_SUFFIX :=
-CXXFLAGS += -O3 -Wconversion
+CXXFLAGS += -O3
 CPP_DEFINE += NDEBUG
 LDFLAGS += -s
 else
@@ -159,6 +161,7 @@ TARGET_BINARY := $(TARGET_DIRECTORY)/$(TARGET_BINARY)
 SRC_DATA := $(addprefix $(TARGET_DIRECTORY)/,$(SRC_DATA))
 BIN_DATA := $(addprefix $(TARGET_DIRECTORY)/,$(BIN_DATA))
 INSTALLER_DATA := $(addprefix $(TARGET_DIRECTORY)/,$(INSTALLER_DATA))
+XML4CONF_DATA := $(addprefix $(TARGET_DIRECTORY)/,$(XML4CONF_DATA))
 
 SCINTILLA_TARGET := $(BUILD_DIRECTORY)/$(SCINTILLA_TARGET)
 SCINTILLA_TARGET_PATH := ../../PowerEditor/gcc/$(SCINTILLA_TARGET)
@@ -181,6 +184,7 @@ ifneq "$(MAKEFILE_DIRECTORY)" "."
 MAKEFILE_PARENT := $(patsubst %/,%,$(dir $(MAKEFILE_DIRECTORY)))
 
 BIN_DIRECTORY := $(patsubst ../%,$(MAKEFILE_PARENT)/%,$(BIN_DIRECTORY))
+XML4CONF_DIRECTORY := $(patsubst ../%,$(MAKEFILE_PARENT)/%,$(XML4CONF_DIRECTORY))
 GCC_DIRECTORY := $(patsubst ../%,$(MAKEFILE_PARENT)/%,$(GCC_DIRECTORY))
 GCC_EXCLUDE := $(patsubst ../%,$(MAKEFILE_PARENT)/%,$(GCC_EXCLUDE))
 SRC_DIRECTORY := $(patsubst ../%,$(MAKEFILE_PARENT)/%,$(SRC_DIRECTORY))
@@ -233,7 +237,7 @@ CPDIR := xcopy /q /e /i /y
 RMDIR := rmdir /q /s
 CP := copy /y
 RM := del /q
-PREBUILD_EVENT_CMD := cd ..\src && NppLibsVersionH-generator.bat
+PREBUILD_EVENT_CMD := "$(MAKEFILE_ABS_DIR)\..\src\NppLibsVersionH-generator.bat"
 normalize-path = $(subst /,\,$1)
 endif
 
@@ -261,6 +265,7 @@ THIRD_DIRS := $(SRC_DIRECTORY)/json \
               $(SRC_DIRECTORY)/MISC/sha1 \
               $(SRC_DIRECTORY)/MISC/sha2 \
               $(SRC_DIRECTORY)/MISC/sha512 \
+              $(SRC_DIRECTORY)/MISC/hmac \
               $(SCINTILLA_DIRECTORY)/include \
               $(LEXILLA_DIRECTORY)/include
 
@@ -336,12 +341,16 @@ $(TARGET_BINARY): $(CXX_TARGETS) $(RC_TARGETS) $(SCINTILLA_TARGET) $(LEXILLA_TAR
 	@echo + linking $@
 	$(AT)$(LD) $(LDFLAGS) $(filter-out %.a,$^) $(addprefix -L,$(LD_PATH)) $(addprefix -l,$(LD_LINK)) -static -o $@
 
-data: $(patsubst %/,%,$(SRC_DATA) $(BIN_DATA) $(INSTALLER_DATA))
+data: $(patsubst %/,%,$(SRC_DATA) $(BIN_DATA) $(XML4CONF_DATA) $(INSTALLER_DATA))
 
 $(patsubst %/,%,$(filter %/,$(SRC_DATA))): $(TARGET_DIRECTORY)/%: $(SRC_DIRECTORY)/% | $(TARGET_DIRECTORY)
 	@echo + copying $@
 	$(AT)$(CPDIR) $(call normalize-path,$< $@)
 $(filter-out %/,$(SRC_DATA)): $(TARGET_DIRECTORY)/%: $(SRC_DIRECTORY)/% | $(TARGET_DIRECTORY)
+	@echo + copying $@
+	$(AT)$(CP) $(call normalize-path,$< $@)
+
+$(XML4CONF_DATA): $(TARGET_DIRECTORY)/%: $(XML4CONF_DIRECTORY)/% | $(TARGET_DIRECTORY)
 	@echo + copying $@
 	$(AT)$(CP) $(call normalize-path,$< $@)
 

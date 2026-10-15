@@ -42,6 +42,7 @@
 #include "localization.h"
 #include "menuCmdID.h"
 #include "resource.h"
+#include "AboutDlg.h"
 
 enum TvIndex : int
 {
@@ -439,7 +440,7 @@ bool ProjectPanel::writeWorkSpace(const wchar_t* projectFileName, bool doUpdateG
 		//printStr(tvItem.pszText);
 
 		NppXml::Element projRoot = NppXml::createChildElement(root, "Project");
-		NppXml::setAttribute(projRoot, "name", wstring2string(tvItem.pszText).c_str());
+		NppXml::setAttribute(projRoot, "name", wstring2string(tvItem.pszText));
 		buildProjectXml(projRoot, tvProj, fn2write);
 	}
 
@@ -485,12 +486,12 @@ void ProjectPanel::buildProjectXml(NppXml::Element& root, HTREEITEM hItem, const
 			const auto* const fn = reinterpret_cast<std::wstring*>(tvItem.lParam);
 			std::string newFn = wstring2string(getRelativePath(*fn, fn2write));
 			NppXml::Element fileLeaf = NppXml::createChildElement(root, "File");
-			NppXml::setAttribute(fileLeaf, "name", newFn.c_str());
+			NppXml::setAttribute(fileLeaf, "name", newFn);
 		}
 		else
 		{
 			NppXml::Element folderNode = NppXml::createChildElement(root, "Folder");
-			NppXml::setAttribute(folderNode, "name", wstring2string(tvItem.pszText).c_str());
+			NppXml::setAttribute(folderNode, "name", wstring2string(tvItem.pszText));
 			buildProjectXml(folderNode, hItemNode, fn2write);
 		}
 	}
@@ -550,7 +551,7 @@ bool ProjectPanel::buildTreeFrom(const NppXml::Element& projectRoot, HTREEITEM h
 		childNode;
 		childNode = NppXml::nextSibling(childNode))
 	{
-		const char* nodeName = NppXml::name(childNode);
+		const char* nodeName = NppXml::getName(childNode);
 		if (std::strcmp(nodeName, "Folder") == 0)
 		{
 			const char* itemName = NppXml::attribute(childNode, "name");
@@ -566,6 +567,39 @@ bool ProjectPanel::buildTreeFrom(const NppXml::Element& projectRoot, HTREEITEM h
 		{
 			const std::wstring strValue = string2wstring(NppXml::attribute(childNode, "name"));
 			const std::wstring fullPath = getAbsoluteFilePath(strValue.c_str());
+
+			if (isUncPath(fullPath))
+			{
+				const std::string fullPathUTF8 = wstring2string(fullPath, CP_UTF8);
+				NppParameters& nppParams = NppParameters::getInstance();
+				if (!nppParams.isServerAllowed(fullPathUTF8.c_str())) // is in the serverWhiteList.xml ?
+				{
+					if (nppParams.networkPathAlwaysAction() == NppParameters::networkPathAlwaysAsk)
+					{
+						const NativeLangSpeaker* pNativeLangSpeaker = nppParams.getNativeLangSpeaker();
+
+						NetworkPathWarningBox networkPathWarningBox;
+						networkPathWarningBox.init(_hInst, _hParent, fullPath, "title4");
+						networkPathWarningBox.doDialog(pNativeLangSpeaker ? pNativeLangSpeaker->isRTL() : false);
+						int buttonID = networkPathWarningBox.getClickedButtonId();
+						networkPathWarningBox.destroy();
+
+						if (buttonID == IDCANCEL || buttonID == IDNO) // Skip once or Always skip
+						{
+							continue;
+						}
+					}
+					else if (nppParams.networkPathAlwaysAction() == NppParameters::networkPathAlwaysSkip)
+					{
+						continue;
+					}
+					else if (nppParams.networkPathAlwaysAction() == NppParameters::networkPathAlwaysLoad)
+					{
+						// do nothing, continue to load the file
+					}
+				}
+			}
+
 			const wchar_t* strValueLabel = ::PathFindFileNameW(strValue.c_str());
 			int iImage = doesFileExist(fullPath.c_str()) ? INDEX_LEAF : INDEX_LEAF_INVALID;
 
